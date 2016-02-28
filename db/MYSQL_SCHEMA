@@ -1,0 +1,177 @@
+# THIS FILE WILL INCLUDE ALL THE CREATE, DROP STATEMENTS
+DROP TABLE Suppliers;
+CREATE TABLE Suppliers  
+        (
+        Supplier_ID VARCHAR(20) NOT NULL UNIQUE,
+        Business_Name VARCHAR(100),
+        
+        PRIMARY KEY(Supplier_ID)
+        );
+
+DROP TABLE Approved_Items;
+CREATE TABLE Approved_Items
+        (
+        Approved_Item_ID VARCHAR(15) NOT NULL UNIQUE,
+        Item VARCHAR(40),
+        Ref_Supplier_ID VARCHAR(20),
+        Cooked_Stat VARCHAR(10),
+        Temp_Stat VARHCAR(10),
+
+        PRIMARY KEY(Approved_Item_ID),
+        FOREIGN KEY(Ref_Supplier_ID) REFERENCES Suppliers(Supplier_ID)
+        );
+DROP TABLE Appliance;
+CREATE TABLE Appliance
+        (
+        Appliance_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        Cooked_Stat VARCHAR(10),
+        Temp_Stat VARCHAR(10),
+
+        PRIMARY KEY(Appliance_Id)
+        );
+
+DROP TABLE Delivery;
+CREATE TABLE Delivery
+        (
+        Invoice_Num INT NOT NULL UNIQUE,
+        Ref_Supplier_ID VARCHAR(20)NOT NULL,
+        Datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        
+        PRIMARY KEY(Invoice_Num),
+        FOREIGN KEY(Ref_Supplier_ID) REFERENCES Suppliers(Supplier_ID)
+        );
+
+DROP TABLE Delivery_Item;
+CREATE TABLE Delivery_Item 
+        (
+        Delivery_Item_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        Ref_Invoice_Num INT NOT NULL,
+        Ref_Approved_Item_ID VARCHAR(15) NOT NULL,
+        Quantity INT NOT NULL,
+        Condition VARCHAR(225),
+        Used_By_Date Datetime,
+        Ref_Appliance_Id INT UNSIGNED,
+        
+        PRIMARY KEY(Delivery_Item_Id),
+        FOREIGN KEY(Ref_Invoice_Num) REFERENCES Delivery(Invoice_Num),
+        FOREIGN KEY(Ref_Approved_Item_ID) REFERENCES Approved_Items(Approved_Item_ID),
+        FOREIGN KEY(Ref_Appliance_Id) REFERENCES Appliance(Appliance_Id)
+        );
+
+DROP TABLE Staff;
+CREATE TABLE Staff
+        (
+        Staff_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        First_Name VARCHAR(50),
+        Last_Name VARCHAR(50),
+        Start_Date Datetime,
+        End_Date Datetime,
+
+        PRIMARY KEY(Staff_id)
+        );
+
+DROP TABLE Staff_Training;
+CREATE TABLE Staff_Training
+        (
+        Ref_Staff_Id INT UNSIGNED NOT NULL,
+        Date DATETIME,
+        Training_Type VARCHAR(20),
+        Training_Qualification VARCHAR(20),
+        Valid_duration INT,
+
+        PRIMARY KEY(Ref_Staff_Id, Date),
+        FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_id)
+        );
+
+DROP TABLE Check_Type;
+CREATE TABLE Check_Type
+        (
+        Type_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        Type VARCHAR(50),
+
+        PRIMARY KEY(Type_Id)
+        );
+
+DROP TABLE Checks;
+CREATE TABLE Checks
+        (
+        Ref_Type_Id INT UNSIGNED NOT NULL,
+        AREA VARCHAR(50),
+        Comment VARCHAR(225),
+        Ref_Staff_Id INT NOT NULL,
+        Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+        PRIMARY KEY(AREA, Date)
+        );
+
+DROP TABLE Address;
+CREATE TABLE Address
+        (
+        Ref_Name VARCHAR(50) NOT NULL,
+        Number INT UNSIGNED,
+        Street VARCHAR(50),
+        City VARCHAR(50),
+        County VARCHAR(50),
+        Country VARCHAR(50),
+        Postcode VARCHAR(8)
+        );
+
+DROP TABLE Telephone_Number;
+CREATE TABLE Telephone_Number
+        (
+        Id VARCHAR(50) NOT NULL,
+        Number VARCHAR(12),
+        Type VARCHAR(10)
+        
+        PRIMARY KEY(Ref_Name, Number, Type)
+        );
+
+DROP TABLE Thermometer;
+CREATE TABLE Thermometer
+        (
+        Thermometer_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        Purchase_Date DATETIME NOT NULL
+
+        PRIMARY KEY(Thermometer_Id)
+        );
+
+DROP TABLE Cooking;
+CREATE TABLE Cooking
+        (
+        Batch_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        Ref_Approved_Item_ID VARCHAR(15),
+        Ref_Thermometer_Id INT UNSIGNED,
+
+        PRIMARY KEY(Batch_Id),
+        FOREIGN KEY(Ref_Approved_Item_ID) 
+        REFERENCES Approved_Items(Approved_Item_ID),
+        FOREIGN KEY(Ref_Thermometer_Id) 
+        REFERENCES Thermometer(Thermometer_Id)
+
+        );
+
+DROP TABLE Cooling;
+CREATE TABLE Cooling
+        (
+        Ref_Batch_Id INT UNSIGNED,
+        Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        Ref_Appliance_Id INT UNSIGNED,
+        Used_By_Date DATETIME,
+        Ref_Staff_Id INT UNSIGNED,
+        
+        PRIMARY KEY(Batch_Id, Date),
+        FOREIGN KEY(Ref_Batch_Id) REFERENCES Cooking(Batch_Id),
+        FOREIGN KEY(Ref_Appliance_Id) REFERENCES Appliance(Appliance_Id),
+        FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_id)
+        );
+DROP TABLE Temperature
+        (
+        Temperature_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        Item_indicator VARCHAR(50) NOT NULL,
+        Ref_Staff_Id UNSIGNED INT NOT NULL
+        Datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        
+        PRIMARY KEY(Thermometer_Id),
+        FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_id)
+        );
