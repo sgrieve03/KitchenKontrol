@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link href="/static/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Sanitation</h1>
+        <p>Use this area to record cleaning and pest control</p>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div title="Food Must Be Cooked To Above 75oC" class="panel-heading">
+            Cleaning Record
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Area</th>
+                            <th>Next due</th>
+                            <th>Cleaning materials</th>
+                            <th>Method</th>
+                            <th>Remarks</th>
+                            <th>ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div title="Food Must Be Cooked To Above 75oC" class="panel-heading">
+            Pest Control Record
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Area</th>
+                            <th>Signs of Infestion</th>
+                            <th>Action</th>
+                            <th>ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+{% endblock %}
+
+{% block java_script %}
+{{ super() }}
+
+<script src="/static/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/static/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#dataTables-example').dataTable( {
+        "pagingType": "full_numbers"
+    } );
+
+});
+</script>
+
+{% endblock %}
