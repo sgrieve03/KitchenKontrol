@@ -173,6 +173,7 @@ CREATE TABLE Cooling
         FOREIGN KEY(Ref_Appliance_Id) REFERENCES Appliance(Appliance_Id),
         FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_id)
         );
+
 CREATE TABLE Temperature
         (
         Temperature_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
