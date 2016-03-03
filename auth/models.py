@@ -2,8 +2,10 @@ from werkzeug.security import generate_password_hash, \
     check_password_hash
 from web import db
 
+
 class User(db.Model):
     __tablename__ = "User"
+
     id = db.Column('user_id', db.Integer, primary_key=True)
     username = db.Column('username', db.String(20), unique=True, index=True)
     password = db.Column('password', db.String(128))

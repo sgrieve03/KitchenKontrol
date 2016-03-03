@@ -30,86 +30,13 @@
           <li class="active"><a data-toggle="pill" href="#home">Delivery</a></li>
              <li><a data-toggle="pill" href="#menu1">Cooking</a></li>
                  <li><a data-toggle="pill" href="#menu2">Hot Hold</a></li>
-                      <li><a data-toggle="pill" href="#menu3">Cooling</a></li>
-                       <li><a data-toggle="pill" href="#menu4">Waste</a></li>
+                       <li><a data-toggle="pill" href="#menu3">Waste</a></li>
                      </ul>
 
                      <div><p></div>                 
     <div class="tab-content">
-   <div id="home" class="tab-pane fade in active">
-   <!-- /.row -->
-   <div class="row">
-   <div class="col-lg-12">
-   <div class="panel panel-primary">
-   <div class="panel-heading">
-    Record Deliveries Here
-    </div>
-    <div class="panel-body">
-    <div class="row">
-    <div class="col-lg-12">
-    <form role="form">
-        <div class=row>
- <div class="form-group col-lg-6">
- <label>Please Select Supplier</label>
- <select class="form-control"></select>
- <p class="help-block">Suppliers must be approved.</p>
- </div>
- <div class="form-group col-lg-6">
- <label>Please Select Item</label>
- <select class="form-control"></select>
- <p class="help-block">Items must be approved.</p>
- </div>
- </div>
- <div class="row">
-<div class="form-group col-lg-6">
-<label>Used By Date</label>
-<input name="date_picker" id="date_picker" class="form-control" >
-</div>
-<div class="form-group col-lg-6">
-<label>Quantity</label>
-<select class="form-control">
-<option>1</option>
-<option>2</option>
-<option>3</option>
-<option>4</option>
-<option>5</option>
-<option>6</option>
-<option>7</option>
-<option>8</option>
-<option>9</option>
-<option>10</option>
-</select>
 
-</div>
-</div>
-
-</div>
-<div class="col-lg-12">
-<div class="row">
-<div class="form-group col-lg-6">
-<label>Comments</label>
-<textarea class="form-control" rows="3"></textarea>
-</div>
-<div class="col-lg-6 ">
-<span class="panel">
-    <div>    <p><p><p></div>
-    <div><p></div>
-<button type="submit" class="btn btn-primary">Add Item</button>
-<button type="submit" class="btn btn-primary">Delete Item</button>
-<button type="submit" class="btn btn-primary">Complete Order</button>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-   
-   
-<div id="menu1" class="tab-pane fade">
+<div id="home" class="tab-pane fade in active">
 <!-- /.row -->
 <div class="row">
 <div class="col-lg-12">
@@ -144,7 +71,18 @@ Record Deliveries Here
 </div>
 <div class="form-group col-lg-3">
 <label>Quantity</label>
-<select class="form-control"></select>
+<select class="form-control">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+<option>7</option>
+<option>8</option>
+<option>9</option>
+<option>10</option>
+</select>
 </div>
 </div>
 </div>
@@ -162,6 +100,52 @@ Record Deliveries Here
 </span>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+   
+<div id="menu1" class="tab-pane fade">
+<!-- /.row -->
+<div class="row">
+<div class="col-lg-12">
+<div class="panel panel-primary">
+<div class="panel-heading">
+Record Cooking Here
+</div>
+<div class="panel-body">
+<div class="row">
+<div class="col-lg-12">
+<form role="form">
+
+<div class=row>
+<div class="form-group col-lg-6">
+<label>Please Select Item</label>
+<select class="form-control"></select>
+</div>
+<div class="form-group col-lg-3">
+<label>Temperature</label>
+<select class="form-control"></select>
+</div>
+<div class="form-group col-lg-3">
+<label>Please Select Thermometer</label>
+<select class="form-control"></select>
+</div>
+</div>
+<div class="col-lg-6">
+    <span class="bottomleft">
+<button type="submit" class="btn btn-primary">Start Cooking</button>
+<button type="submit" class="btn btn-primary">Mid Cook Check</button>
+<button type="submit" class="btn btn-primary">Finished Cooking</button>
+<button type="submit" class="btn btn-primary">Cooling Check</button>
+<button type="submit" class="btn btn-primary">Put in fridge</button>
+<button type="submit" class="btn btn-primary">Put in HotHold</button>
+</span>
+</div>
+</form>
 </div>
 </div>
 </div>
