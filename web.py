@@ -72,12 +72,10 @@ def logout():
 
 #protected web pages
 @app.route("/register")
-@login_required
 def register():
     return render_template("register.html")
 
 @app.route("/home")
-@login_required
 def index():
         return render_template('home.html')
 
@@ -115,9 +113,9 @@ def load_user(user_id):
         return None
 
 
-
-# start flask 
-app.run(host='0.0.0.0', port=5050)
+if __name__ == '__main__':
+    # start flask 
+    app.run(host='0.0.0.0', port=5050)
 
 
 
