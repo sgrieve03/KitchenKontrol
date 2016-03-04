@@ -5,7 +5,6 @@ from wtforms.validators import DataRequired
 
 
 class NewUser(Form):
-    user_id = 1
     username = TextField('username', [DataRequired('Must provide a username')])
     password = TextField('password', [DataRequired('Must provide a password')])
     email = TextField('email', [DataRequired('Must provide an email address')])
@@ -20,7 +19,6 @@ class NewUser(Form):
         if user:
             return False
         else:
-            self.user_id +=1
             return True
 
 

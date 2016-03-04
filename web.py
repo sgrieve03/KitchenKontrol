@@ -2,6 +2,8 @@
 from flask import Flask
 from flask_wtf.csrf import CsrfProtect
 from flask.ext.sqlalchemy import SQLAlchemy
+
+
 from flask_login import LoginManager, login_required, login_user, logout_user
 
 
@@ -55,8 +57,13 @@ def register():
     
     if not form.validate():
         return (render_template('register.html', form=form, errors=errors))
-  
     
+    username = form['email']
+    password = request.form['password']
+    email = request.form['username']
+    user = auth.models.User(username, password, email)
+    db.session.add(user)
+    db.session.commit()
 
     return redirect(url_for('login'))
 
@@ -136,7 +143,8 @@ def load_user(user_id):
     else:
         return None
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     # start flask 
     app.run(host='0.0.0.0', port=5050)
 

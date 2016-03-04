@@ -37,5 +37,8 @@ class User(db.Model):
     def get_id(self):
         return unicode(self.id)
 
+    def set_id(self, id):
+        id = id
+
     def __repr__(self):
         return '<User %r>' % (self.username)
