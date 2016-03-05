@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block head_css %}
+{{super()}}
+<link href="static/libs/morris.js/morris.css" rel="stylesheet">
+    <link href="static/libs/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+        <div class="main">
+          <div class="main__scroll scrollbar-macosx">
+            <div class="main__cont">
+              <div class="container-fluid half-padding">
+                <div class="pages pages_dashboard">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <div class="panel panel-danger">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">User Statistics</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-12 text-center">
+                                      <label class="label label-success">Area Chart</label>
+                                            <div id="bar" ></div>
+                                                </div>
+                    </div>
+                    </div>
+                    </div>
+                        <div class="col-md-3">
+                      <div class="panel panel-success">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Over View</h3>
+                        </div>
+                        <div class="panel-body">
+                          <div class="ov-widget">
+                            <div class="ov-widget__list">
+                              <div class="ov-widget__item ov-widget__item_dec">
+                                  <div class="ov-widget__value">{{cookingcomplete}}</div>
+                                <div class="ov-widget__info">
+                                  <div class="ov-widget__title">Cooking</div>
+                                </div>
+                              </div>
+                              <div class="ov-widget__item ov-widget__item_inc">
+                                  <div class="ov-widget__value">{{cooling}}</div>
+                                <div class="ov-widget__info">
+                                  <div class="ov-widget__title">Cooling</div>
+                                </div>
+                              </div>
+                              <div class="ov-widget__item ov-widget__item_warn">
+                                  <div class="ov-widget__value">{{hotholdcomplete}}</div>
+                                <div class="ov-widget__info">
+                                  <div class="ov-widget__title">Hot Hold</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    
+                  
+                  
+    {% endblock %}
+    {% block tail_js %}
+    {{ super() }}
+    
+    <script src="static/libs/jquery/jquery.min.js"></script>
+    <script src="static/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/libs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="static/libs/bootstrap-tabdrop/bootstrap-tabdrop.min.js"></script>
+    <script src="static/libs/sparkline/jquery.sparkline.min.js"></script>
+    <script src="static/libs/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="static/libs/inputNumber/js/inputNumber.js"></script>
+    <script src="static/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+    <script src="static/libs/raphael/raphael-min.js"></script>
+    <script src="static/libs/morris.js/morris.min.js"></script>
+    <script src="static/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="static/js/template/index.js"></script>
+    <script src="static/js/main.js"></script>
+    <script src="static/js/demo.js"></script>
+    <script>
+    $(function(){
+     var chart = Morris.Bar({
+         data: [0,0],
+         xkey: 'day',
+         ykeys: ['value'],
+         labels: ['Tasks'],
+         fillOpacity: 0.6,
+         resize: true,
+         barColors:['gray','red']
+        });
+        $.ajax({
+           type: "GET",
+           dataType: 'json',
+           url: "/index/user_stats"
+           })
+        .done(function(data){
+            chart.setData(data);
+            })
+        .fail(function(){
+            alert("error occured");
+        });
+        });
+     </script>
+    
+    {% endblock %}
+
