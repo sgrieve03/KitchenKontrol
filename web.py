@@ -39,7 +39,16 @@ app.use_reloader = True
 def landing_page():
     return render_template("index.html")
 
-@app.route("/login")
+
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
+@app.route("/forgotpassword")
+def forgotpassword():
+    return render_template("forgotpassword.html")
+
+@app.route("/login", methods=['GET','POST'])
 def login():
     errors = request.args.get('errors', [])
     if errors:
@@ -71,10 +80,6 @@ def logout():
     return redirect('login')
 
 #protected web pages
-@app.route("/register")
-def register():
-    return render_template("register.html")
-
 @app.route("/home")
 def index():
         return render_template('home.html')
