@@ -1,30 +1,38 @@
-from models import User
 from flask.ext.wtf import Form
-from wtforms import TextField, PasswordField, BooleanField
+from wtforms import TextField, PasswordField, BooleanField,\
+    validators
 from wtforms.validators import DataRequired
+from db import login, register, forgotpswd
 
 
 class NewUser(Form):
-    username = TextField('username', [DataRequired('Must provide a username')])
-    password = TextField('password', [DataRequired('Must provide a password')])
-    email = TextField('email', [DataRequired('Must provide an email address')])
+    firstname = TextField('Username', 
+            [validators.Length(min=4, max=20)])
+    lastname = TextField('Username', 
+            [validators.Length(min=4, max=20)])
+    email = TextField('Email Address', 
+            [DataRequired('Must provide an email address')])
+    password = PasswordField('New Password', 
+            [validators.Required(),
+            validators.EqualTo('password2', 
+            message='Passwords must match')])
+    password2 = PasswordField('Repeat Password')
 
     def validate(self):
         if not Form.validate(self):
             print 'Invalid!'
             return False
         print 'Valid!'
-
-        user = User.query.filter_by(username=self.username.data).first()
+        user = register.validate(self.firstname.data, 
+            self.lastname.data, self.email.data, self.password.data)
         if user:
-            return False
+            return True 
         else:
-            return True
-
+            return False
 
 
 class LoginForm(Form):
-    username = TextField('username',
+    email = TextField('email',
         [DataRequired('Must provide a username/password')])
     password = PasswordField('password',
         [DataRequired('Must provide a username/password')])
@@ -35,9 +43,30 @@ class LoginForm(Form):
             print 'Invalid!'
             return False
         print 'Valid!'
-
-        user = User.query.filter_by(username=self.username.data).first()
-        if user and user.check_password(self.password.data):
+     
+        v = login.check_password()
+        if v.validate(self.password.data, self.email.data):
+            print "exists"
             return True
         else:
+            print "doeesnt exist"
             return False
+
+
+class ForgotPasswordForm(Form):
+    email = TextField('email',
+            [DataRequired('Must provide an email')])
+    newpassword = ""
+    
+    def validate(self):
+        if not Form.validate(self):
+            print 'Invalid!'
+            return False
+        print 'Valid!'
+        
+        m = forgotpswd.send()
+        self.newpassword = m.validate(self.email.data)
+        return True
+        
+
+

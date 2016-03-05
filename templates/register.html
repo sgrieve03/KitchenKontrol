@@ -17,16 +17,22 @@
   <body class="framed">
     <div class="wrapper">
         <div class="login">
-        <form action="index.html" class="login__form">
+        <form method="POST" class="login__form">
             {{form.csrf_token}}
           <div class="form-group">
-            <input name="email" type="text" placeholder="Email" class="form-control">
+            <input name="firstname"required pattern="\w+" type="text" placeholder="First Name" class="form-control">
           </div>
           <div class="form-group">
-            <input name="password" type="password" placeholder="Password" class="form-control">
+            <input name="lastname"required pattern="\w+" type="text" placeholder="Last Name" class="form-control">
           </div>
           <div class="form-group">
-            <input name="password" type="password" placeholder="Confirm Password" class="form-control">
+            <input name="email" type="email" placeholder="Email" class="form-control">
+          </div>
+          <div class="form-group">
+              <input name="password" type="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" onchange="form.password2.pattern = this.value;" placeholder="Password" class="form-control">
+          </div>
+          <div class="form-group">
+              <input name="password2" type="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" placeholder="Confirm Password" class="form-control">
           </div>
           <div class="form-group login__action">
             <div class="login__submit">

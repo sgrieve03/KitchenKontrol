@@ -1,7 +1,7 @@
 USE KitchenKontrol;
 DROP TABLE IF EXISTS Temperature;
-DROP TABLE IF EXISTS Cooling;
 DROP TABLE IF EXISTS Cooking;
+DROP TABLE IF EXISTS Food_Processing;
 DROP TABLE IF EXISTS Thermometer;
 DROP TABLE IF EXISTS Login;
 DROP TABLE IF EXISTS Telephone_Number;
@@ -42,7 +42,7 @@ CREATE TABLE Appliance
         Temp_Stat VARCHAR(10),
 
         PRIMARY KEY(Appliance_Id)
-        );
+        )ENGINE=InnoDB AUTO_INCREMENT=1000;
 
 CREATE TABLE Delivery
         (
@@ -68,7 +68,7 @@ CREATE TABLE Delivery_Item
         FOREIGN KEY(Ref_Invoice_Num) REFERENCES Delivery(Invoice_Num),
         FOREIGN KEY(Ref_Approved_Item_ID) REFERENCES Approved_Items(Approved_Item_ID),
         FOREIGN KEY(Ref_Appliance_Id) REFERENCES Appliance(Appliance_Id)
-        );
+        )ENGINE=InnoDB AUTO_INCREMENT=5000;
 
 CREATE TABLE Staff
         (
@@ -79,7 +79,7 @@ CREATE TABLE Staff
         End_Date CHAR(8),
 
         PRIMARY KEY(Staff_id)
-        );
+        )ENGINE=InnoDB AUTO_INCREMENT=500;
 
 CREATE TABLE Staff_Training
         (
@@ -134,11 +134,11 @@ CREATE TABLE Telephone_Number
 
 CREATE TABLE Login
         (
-        Username VARCHAR(50) NOT NULL UNIQUE,
+        Email VARCHAR(50) NOT NULL UNIQUE,
         Password VARCHAR(225) NOT NULL UNIQUE,
         Ref_Staff_Id INT UNSIGNED NOT NULL,
 
-        PRIMARY KEY(Username),
+        PRIMARY KEY(Email),
         FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_id)
         );
 CREATE TABLE Thermometer
@@ -147,9 +147,9 @@ CREATE TABLE Thermometer
         Purchase_Date CHAR(8) NOT NULL,
 
         PRIMARY KEY(Thermometer_Id)
-        );
+        )ENGINE=InnoDB AUTO_INCREMENT=2000;
 
-CREATE TABLE Cooking
+CREATE TABLE Food_Processing
         (
         Batch_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -160,7 +160,7 @@ CREATE TABLE Cooking
         PRIMARY KEY(Batch_Id),
         FOREIGN KEY(Ref_Approved_Item_ID) 
         REFERENCES Approved_Items(Approved_Item_ID)
-        );
+        )ENGINE=InnoDB AUTO_INCREMENT=10000;
 
 CREATE TABLE Temperature
         (
@@ -174,4 +174,4 @@ CREATE TABLE Temperature
         PRIMARY KEY(Temperature_Id),
         FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_id),
         FOREIGN KEY(Ref_Thermometer_Id) REFERENCES Thermometer(Thermometer_Id)
-        );
+        )ENGINE=InnoDB AUTO_INCREMENT=100000;
