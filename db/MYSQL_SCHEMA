@@ -154,24 +154,12 @@ CREATE TABLE Cooking
         Batch_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         Ref_Approved_Item_ID VARCHAR(15) NOT NULL,
+        Activity VARCHAR(40),
+        Is_Complete VARCHAR(20),
 
         PRIMARY KEY(Batch_Id),
         FOREIGN KEY(Ref_Approved_Item_ID) 
         REFERENCES Approved_Items(Approved_Item_ID)
-        );
-
-CREATE TABLE Cooling
-        (
-        Ref_Batch_Id INT UNSIGNED NOT NULL,
-        Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        Ref_Appliance_Id INT UNSIGNED NOT NULL,
-        Used_By_Date DATETIME,
-        Ref_Staff_Id INT UNSIGNED NOT NULL,
-        
-        PRIMARY KEY(Ref_Batch_Id, Date),
-        FOREIGN KEY(Ref_Batch_Id) REFERENCES Cooking(Batch_Id),
-        FOREIGN KEY(Ref_Appliance_Id) REFERENCES Appliance(Appliance_Id),
-        FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_id)
         );
 
 CREATE TABLE Temperature

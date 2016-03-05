@@ -1,24 +1,18 @@
 # flask
-from flask import Flask, render_template, request, Response, flash
-from flask import url_for, redirect
-from flask.ext.restful import reqparse, abort, Api, Resource
+from flask import Flask
 from flask_wtf.csrf import CsrfProtect
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager, login_user, logout_user,\
-                                    login_required
+
+
+from flask_login import LoginManager, login_required, login_user, logout_user
+
 
 # python
-from threading import Thread
-from collections import OrderedDict
-import time, datetime
-import signal, os, sys
-from pprint import pprint
-import sqlite3, json
+import json
 
-#application
+# application
 import auth.forms
 import auth.models
-
 
 login_manager = LoginManager()
 app = Flask(__name__)
@@ -32,23 +26,47 @@ login_manager.login_view = 'login'
 app.debug = True
 app.use_reloader = True
 
-
-#visible  web pages
-@app.route("/")
-@app.route("/index")
-def landing_page():
-    return render_template("index.html")
+crsf = CsrfProtect()
+crsf.init_app(app)
 
 
-@app.route("/register")
-def register():
-    return render_template("register.html")
+from flask import render_template, request
+from flask import url_for, redirect
 
+
+# visible  web pages
 @app.route("/forgotpassword")
 def forgotpassword():
     return render_template("forgotpassword.html")
 
-@app.route("/login", methods=['GET','POST'])
+
+@app.route("/")
+@app.route("/index")
+def index():
+    pass
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    form = auth.forms.NewUser()
+
+    if request.method == 'GET':
+        return (render_template('register.html', form=form, errors=errors))
+    
+    if not form.validate():
+        return (render_template('register.html', form=form, errors=errors))
+    
+    username = form['email']
+    password = request.form['password']
+    email = request.form['username']
+    user = auth.models.User(username, password, email)
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect(url_for('login'))
+
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
     errors = request.args.get('errors', [])
     if errors:
@@ -62,30 +80,33 @@ def login():
     if not form.validate():
         return (render_template('login.html', form=form, errors=errors))
 
+    
     username = request.form['username']
     registered_user = auth.models.User.query.\
-            filter_by(username=username).first()
+        filter_by(username=username).first()
     remember_me = False
     if 'remember' in request.form:
         remember_me = True
     print remember_me
-    login_user(registered_user, remember=remember_me)
-        
-    return redirect(request.args.get('next') or url_for('home'))
+    login_user(registered_user, remember=remember_me)    
     
+    return redirect(request.args.get('next') or url_for('home'))
+
+
+# protected web pages
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect('login')
 
-#protected web pages
+
 @app.route("/home")
-def index():
+def home():
         return render_template('home.html')
 
+
 @app.route("/food")
-@login_required
 def food():
     return render_template("food.html")
 
@@ -94,19 +115,23 @@ def food():
 def sanitation():
     return render_template("sanitation.html")
 
+
 @app.route("/devices")
 @login_required
 def device():
     return render_template("devices.html")
 
+
 @app.route("/inspection")
 def inspection():
     return render_template("inspection.html")
+
 
 @app.route("/manager")
 @login_required
 def manager():
     return render_template("manager.html")
+
 
 @login_manager.user_loader
 def load_user(user_id):
