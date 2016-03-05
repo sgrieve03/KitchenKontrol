@@ -1,4 +1,8 @@
-SQLALCHEMY_DATABASE_URI = 'sqlite:///example.db'
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+MAIL_SERVER = "smtp.office365.com"
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USERNAME = "shauna.grieve@neueda.com"
+MAIL_PASSWORD = "Uls13210902"
+

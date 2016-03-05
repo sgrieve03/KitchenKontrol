@@ -1,30 +1,32 @@
 import MySQLdb 
+from werkzeug.security import check_password_hash
 
-d= MySQLdb.connect(host = "kitchenkontrol.cpjb7blsswch.us-west-2.rds.amazonaws.com",
-                 user = "Root",
-                 passwd = "kitchenkontrol",
-                 port = 3306,
-                 db = "KitchenKontrol")
+d = MySQLdb.connect (host=
+    "kitchenkontrol.cpjb7blsswch.us-west-2.rds.amazonaws.com",
+    user="Root",
+    passwd="kitchenkontrol",
+    port=3306,
+    db="KitchenKontrol")
 
 
-class Users():
-    c = d.cursor()
-    statement = "SHOW TABLES;"
-    c.execute(statement)
-    rows = c.fetchall()
-    for row in rows:
-        print row
+class check_password ():
+    def validate (self, passwd, email):
 
-class check_password(passwd, username):
-    c = d.cursor()
-    statement = '''select count(id) from login
-        where password = "%s and username =%s";''' (passwd, username)
-    c.execute(statement)
-    row = c.fetchall()
-    def valid(self):
-        if self.row ==1:
-            return True
-        else:
+        c = d.cursor()
+        statement = '''select password from Login
+            where email ="%s";'''\
+            %(email)
+        try:
+            c.execute(statement)
+            rows = c.fetchall()
+            for row in rows:
+                password = row[0]
+            print password
+            print passwd
+            print email
+            if check_password_hash(password,passwd):     
+                return True
+        except:
             return False
 
     
