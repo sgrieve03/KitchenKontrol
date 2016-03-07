@@ -1,11 +1,4 @@
-import MySQLdb 
-
-d = MySQLdb.connect(
-    host="kitchenkontrol.cpjb7blsswch.us-west-2.rds.amazonaws.com",
-    user="Root",
-    passwd="kitchenkontrol",
-    port=3306,
-    db="KitchenKontrol")
+from db import d
 
 
 def get_supplier():
@@ -43,6 +36,7 @@ def check_password(passwd, username):
     else:
             return False
 
+
 def get_supplier_id(business_name):
     c = d.cursor()
     statement = '''SELECT Supplier_Id from Suppliers 
@@ -51,13 +45,14 @@ def get_supplier_id(business_name):
     supplier_id = c.fetchall()
     return supplier_id
 
-def add_item(business_name,invoice_number, used_by_date, 
+
+def add_item(business_name, invoice_number, used_by_date,
         item, temperature, thermometer, quantity, comment):
     supplier_id = get_supplier_id(business_name)
     c = d.cursor()
     
     statement = '''INSERT INTO Delivery(Invoice_Num, Ref_supplier_id)
-    values ("%s", "%s);'''(invoice_number, suppler_id)
+    values ("%s", "%s);'''(invoice_number, supplier_id)
     c.execute(statement)
     statement = '''INSERT INTO Delivery_Item(
         ref_invoice_num, ref_approved_item_id, quantity, description,

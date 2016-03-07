@@ -12,6 +12,7 @@ import config
 # application
 import auth.forms
 import auth.models
+from db import cleaning
 
 login_manager = LoginManager()
 app = Flask(__name__)
@@ -32,6 +33,10 @@ crsf.init_app(app)
 from flask import render_template, request
 from flask import url_for, redirect
 
+todays_cleaning = cleaning.get_todays_cleaning_tasks()
+overview = cleaning.get_cleaning_overview()
+
+current_user=""
 
 # visible  web pages
 @app.route("/forgotpassword", methods=["GET", "POST"])
@@ -51,6 +56,33 @@ def forgotpassword():
 
         mail.send(msg)
         return redirect(url_for('login'))
+
+@app.route("/sanitation", methods=["GET", "POST"])
+@login_required
+def sanitation():
+    context = {
+        "todays_cleaning": todays_cleaning,
+        "overview": overview}
+    form = auth.forms.AlertForm()
+    if request.method == "POST":
+        if request.form['buttons'] == 'send':
+            print current_user 
+            location = request.form['location']
+            topic = request.form['topic']
+            comment = request.form['comment']+". "+current_user.email 
+            msg = Message(location + ": " + topic,
+                    sender=config.MAIL_USERNAME,
+                    recipients=[config.MAIL_USERNAME])
+            msg.body = comment
+            mail.send(msg)
+            id = current_user.get_id()
+            form.senddb(location, comment, id)
+        if request.form['buttons'] == 'save':
+            location = request.form['location']
+            day = request.form['day']
+            description = request.form['description']
+            form.save(location, day, description)
+    return render_template("cleaning.html", form=form, **context)
 
 
 @app.route("/")
@@ -92,7 +124,6 @@ def login():
     remember_me = False
     if 'remember' in request.form:
         remember_me = True
-    print remember_me
     login_user(registered_user, remember=remember_me)
     return redirect(request.args.get('next') or url_for('home'))
 
@@ -108,19 +139,15 @@ def logout():
 @app.route("/home")
 @login_required
 def home():
-        return render_template('home.html')
+        return render_template('landingpage.html')
 
 
 @app.route("/food")
 @login_required
 def food():
-    return render_template("food.html")
+    return render_template("products.html")
 
 
-@app.route("/sanitation")
-@login_required
-def sanitation():
-    return render_template("sanitation.html")
 
 
 @app.route("/devices")
@@ -138,9 +165,10 @@ def manager():
 @login_manager.user_loader
 def load_user(user_id):
     u = auth.models.User(user_id)
+    global current_user
+    current_user = u
     print user_id
     if u:
-        print u.__repr__
         return u
     else:
         return None

@@ -1,8 +1,9 @@
 from flask.ext.wtf import Form
 from wtforms import TextField, PasswordField, BooleanField,\
-    validators
+    validators, fields 
 from wtforms.validators import DataRequired
-from db import login, register, forgotpswd
+from db import login, register, forgotpswd, cleaning
+from web import todays_cleaning
 
 
 class NewUser(Form):
@@ -67,6 +68,18 @@ class ForgotPasswordForm(Form):
         m = forgotpswd.send()
         self.newpassword = m.validate(self.email.data)
         return True
-        
 
 
+class AlertForm(Form):
+    areas = todays_cleaning
+    location = fields.SelectMultipleField('location', todays_cleaning)
+    topic = fields.SelectField('topic', 
+            choices=['Broken/damaged Item', "Low Cleaning Supplies"])
+    comment = fields.TextAreaField(u'comment', 
+            [validators.optional(), validators.length(max=220)])
+
+    def senddb(location, comment, id):
+        cleaning.create_check(location, comment, id)        
+
+    def save(location, day, description):
+        cleaning.create_cleaning_strategy(location, description, day)

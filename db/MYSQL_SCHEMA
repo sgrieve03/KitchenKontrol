@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS Telephone_Number;
 DROP TABLE IF EXISTS Address;
 DROP TABLE IF EXISTS Checks;
 DROP TABLE IF EXISTS Check_Type; 
+DROP TABLE IF EXISTS Cleaning_Rota;
+DROP TABLE IF EXISTS Cleaning_Strategy;
 DROP TABLE IF EXISTS Staff_Training;
 DROP TABLE IF EXISTS Staff;
 DROP TABLE IF EXISTS Delivery_Item;
@@ -101,16 +103,34 @@ CREATE TABLE Check_Type
         PRIMARY KEY(Type_Id)
         );
 
+CREATE TABLE Cleaning_Strategy
+        (
+        Area_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        Area VARCHAR(50),
+        Description VARCHAR(225),
+        PRIMARY KEY(Area_id)
+        );
+
+CREATE TABLE Cleaning_Rota
+        (
+        Ref_Area_Id INT UNSIGNED NOT NULL,
+        Day INT UNSIGNED NOT NULL,
+
+        PRIMARY KEY(Ref_Area_Id, Day),
+        FOREIGN KEY(Ref_Area_Id) REFERENCES Cleaning_Strategy(Area_id)
+        );
+
 CREATE TABLE Checks
         (
         Ref_Type_Id INT UNSIGNED NOT NULL,
-        Area VARCHAR(50),
+        Ref_Area_id INT NOT NULL,
         Comment VARCHAR(225),
         Ref_Staff_Id INT NOT NULL,
         Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-        PRIMARY KEY(Area, Date)
+        PRIMARY KEY(Ref_Area_Id, Date)
         );
+
 
 CREATE TABLE Address
         (

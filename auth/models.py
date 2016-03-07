@@ -1,3 +1,4 @@
+from db import user
 
 
 class User():
@@ -6,7 +7,7 @@ class User():
     
     def __init__(self, email=""):
         self.email = email
-        self.id = email
+        self.id = user.get_user(email)
     
     def is_authenticated(self):
         return True
