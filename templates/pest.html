@@ -33,7 +33,7 @@
                 <div class="main-title">
                   <ol class="breadcrumb">
                     <li><a href="./">Dashboard</a></li>
-                    <li class="active">Cleaning Scheduling and Activities</li>
+                    <li class="active">Pest Control Scheduling and Activities</li>
                   </ol>
                 </div>
                 <div class="main-filter">
@@ -139,7 +139,7 @@
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
                                                 <select required name="location" id="location"placeholder="location" class="selectpicker">
-                                                    {%for k,v in todays_cleaning.items()%}
+                                                    {%for k,v in todays_pest.items()%}
                                                     <option value="{{v['area']}}">{{v['area']}}</option>
                                                     {%endfor%}
                                                 </select>
@@ -151,9 +151,9 @@
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i></div>
                                                 <select required name="topic" id="topic" placeholder="Type" class="selectpicker">
-                                                  <option value="Broken/damaged Item">Broken/damaged Item</option>
-                                                  <option value="Low Cleaning Supplies">Low Cleaning Supplies</option>
-                                                  <option value="Complete">Complete</option>
+                                                  <option value="Broken/damaged Item">Broken/damaged trap</option>
+                                                  <option value="Low Cleaning Supplies">Low Poison</option>
+                                                  <option value="Complete">Check Complete</option>
                                                 </select>
                                               </div>
                                             </div>
@@ -215,7 +215,7 @@ $(document).ready(function(){
         'scroll':false,
         'paging':false
         }    );
-$('tasktable tbody').on('click', 'td', function(){
+$('#tasktable tbody').on('click', 'td', function(){
 var tr = $(this).closest('tr');
 var row = table.row(tr);
 var details = row.data[0];

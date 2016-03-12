@@ -2,8 +2,8 @@ from flask.ext.wtf import Form
 from wtforms import TextField, PasswordField, BooleanField,\
     validators, fields 
 from wtforms.validators import DataRequired
-from db import login, register, forgotpswd, cleaning
-from web import todays_cleaning
+from db import login, register, forgotpswd, sanitation
+from web import todays_cleaning, todays_pest
 
 
 class NewUser(Form):
@@ -78,8 +78,23 @@ class AlertForm(Form):
     comment = fields.TextAreaField(u'comment', 
             [validators.optional(), validators.length(max=220)])
 
-    def senddb(location, comment, id):
-        cleaning.create_check(location, comment, id)        
+    def senddb(self, ref_type, location, comment, userid):
+        sanitation.create_check(ref_type, location, comment, userid)        
 
-    def save(location, day, description):
-        cleaning.create_cleaning_strategy(location, description, day)
+    def save(self, ref_type, location, day, description):
+        sanitation.create_strategy(ref_type, location, description, day)
+
+
+class PestForm(Form):
+    areas = todays_pest
+    location = fields.SelectMultipleField('location', todays_pest)
+    topic = fields.SelectField('topic', 
+            choices=['Broken/damaged Trap', "Low Poison Supplies"])
+    comment = fields.TextAreaField(u'comment', 
+            [validators.optional(), validators.length(max=220)])
+
+    def senddb(self, ref_type, location, comment, userid):
+        sanitation.create_check(ref_type, location, comment, userid)        
+
+    def save(self, ref_type, location, day, description):
+        sanitation.create_strategy(ref_type, location, description, day)

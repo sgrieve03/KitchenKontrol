@@ -12,7 +12,7 @@ import config
 # application
 import auth.forms
 import auth.models
-from db import cleaning
+from db import sanitation
 
 login_manager = LoginManager()
 app = Flask(__name__)
@@ -33,10 +33,15 @@ crsf.init_app(app)
 from flask import render_template, request
 from flask import url_for, redirect
 
-todays_cleaning = cleaning.get_todays_cleaning_tasks()
-overview = cleaning.get_cleaning_overview()
+todays_cleaning = sanitation.get_todays_tasks(config.cleaning)
+overview = sanitation.get_overview(config.cleaning)
 
-current_user=""
+todays_pest = sanitation.get_todays_tasks(config.pest)
+pest_overview = sanitation.get_overview(config.pest)
+
+current_email = ""
+current_user = ""
+
 
 # visible  web pages
 @app.route("/forgotpassword", methods=["GET", "POST"])
@@ -57,31 +62,45 @@ def forgotpassword():
         mail.send(msg)
         return redirect(url_for('login'))
 
+
 @app.route("/sanitation", methods=["GET", "POST"])
 @login_required
-def sanitation():
-    context = {
-        "todays_cleaning": todays_cleaning,
-        "overview": overview}
+def sanitize():
+    todays_cleaning = sanitation.get_todays_tasks(config.cleaning)
+    overview = sanitation.get_overview(config.cleaning)
+    context = {'todays_cleaning': todays_cleaning,
+            'overview': overview}
     form = auth.forms.AlertForm()
     if request.method == "POST":
         if request.form['buttons'] == 'send':
-            print current_user 
             location = request.form['location']
             topic = request.form['topic']
-            comment = request.form['comment']+". "+current_user.email 
+            comment = request.form['comment']
+            msgtosend = comment + " From " + current_email
             msg = Message(location + ": " + topic,
                     sender=config.MAIL_USERNAME,
                     recipients=[config.MAIL_USERNAME])
-            msg.body = comment
+            msg.body = msgtosend
             mail.send(msg)
-            id = current_user.get_id()
-            form.senddb(location, comment, id)
+            userid = current_user
+            if topic == 'Complete':
+                form.senddb(config.cleaning, location, comment, userid)
+                todays_cleaning = sanitation.get_todays_tasks(config.cleaning)
+                overview = sanitation.get_overview(config.cleaning)
+                context = {'todays_cleaning': todays_cleaning,
+                    'overview': overview}
         if request.form['buttons'] == 'save':
             location = request.form['location']
-            day = request.form['day']
+            days = request.form.getlist('day')
+            d = []
+            for day in days:
+                d.append(int(day))
             description = request.form['description']
-            form.save(location, day, description)
+            form.save(config.cleaning, location, d, description)
+            todays_cleaning = sanitation.get_todays_tasks(config.cleaning)
+            overview = sanitation.get_overview(config.cleaning)
+            context = {'todays_cleaning': todays_cleaning,
+                'overview': overview}
     return render_template("cleaning.html", form=form, **context)
 
 
@@ -120,6 +139,9 @@ def login():
         return (render_template('login.html',
             form=form, errors=errors))
     email = request.form['email']
+    global current_email
+    current_email = email
+    print current_email
     registered_user = auth.models.User(email=email)
     remember_me = False
     if 'remember' in request.form:
@@ -145,9 +167,7 @@ def home():
 @app.route("/food")
 @login_required
 def food():
-    return render_template("products.html")
-
-
+    return render_template("food.html")
 
 
 @app.route("/devices")
@@ -156,22 +176,57 @@ def device():
     return render_template("devices.html")
 
 
-@app.route("/manager")
+@app.route("/pest", methods=["GET", "POST"])
 @login_required
-def manager():
-    return render_template("manager.html")
+def pest():
+    todays_pest = sanitation.get_todays_tasks(config.pest)
+    pest_overview = sanitation.get_overview(config.pest)
+    context = {'todays_pest': todays_pest,
+            'overview': pest_overview}
+    form = auth.forms.AlertForm()
+    if request.method == "POST":
+        if request.form['buttons'] == 'send':
+            location = request.form['location']
+            topic = request.form['topic']
+            comment = request.form['comment']
+            msgtosend = comment + " From " + current_email
+            msg = Message(location + ": " + topic,
+                    sender=config.MAIL_USERNAME,
+                    recipients=[config.MAIL_USERNAME])
+            msg.body = msgtosend
+            mail.send(msg)
+            userid = current_user
+            if topic == 'Complete':
+                form.senddb(config.pest, location, comment, userid)
+                todays_pest = sanitation.get_todays_tasks(config.pest)
+                overview = sanitation.get_overview(config.pest)
+                context = {'todays_pest': todays_pest,
+                    'overview': overview}
+        if request.form['buttons'] == 'save':
+            location = request.form['location']
+            days = request.form.getlist('day')
+            d = []
+            for day in days:
+                d.append(int(day))
+            description = request.form['description']
+            form.save(config.pest, location, d, description)
+            todays_pest = sanitation.get_todays_tasks(config.pest)
+            overview = sanitation.get_overview(config.pest)
+            context = {'todays_pest': todays_pest,
+                'overview': overview}
+    return render_template("pest.html", form=form, **context)
 
 
 @login_manager.user_loader
 def load_user(user_id):
     u = auth.models.User(user_id)
     global current_user
-    current_user = u
+    current_user = user_id
     print user_id
     if u:
         return u
     else:
-        return None
+        return None 
 
 
 if __name__ == '__main__':

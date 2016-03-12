@@ -1,298 +1,227 @@
 {% extends "base.html" %}
-
-{% block head %}
-    {{ super() }}
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <link href="/static/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
-    <!-- plus a jQuery UI theme, here I use "flick" -->
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/flick/jquery-ui.css">
-    <link href="static/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link type="text/css" href="static/jquery.simple-dtpicker.css" rel="stylesheet" />
-    {% endblock %}
-
-{% block navbar %}
-{% include "navbar.html" %}
-{% endblock %}
-
-{% block content %}
-
-<div page-wrapper col-lg-12>
-    <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Food
-                        <i class="fa fa-cutlery"></i>
-                    </h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-    <div class="container col-lg-12">
-       <ul class="nav nav-pills nav-primary">
-          <li class="active"><a data-toggle="pill" href="#home">Delivery</a></li>
-             <li><a data-toggle="pill" href="#menu1">Cooking</a></li>
-                 <li><a data-toggle="pill" href="#menu2">Hot Hold</a></li>
-                       <li><a data-toggle="pill" href="#menu3">Waste</a></li>
-                     </ul>
-
-                     <div><p></div>                 
-    <div class="tab-content">
-
-<div id="home" class="tab-pane fade in active">
-<!-- /.row -->
-<div class="row">
-<div class="col-lg-12">
-<div class="panel panel-primary">
-    <div class="panel-heading"><i class="fa fa-truck"></i>
-Record Deliveries Here
-</div>
-<div class="panel-body">
-<div class="row">
-<div class="col-lg-12">
-<form role="form">
-<div class=row>
-<div class="form-group col-lg-6">
-<label>Please Select Supplier</label>
-<select class="form-control"></select>
-<p class="help-block">Suppliers must be approved.</p>
-</div>
-<div class="form-group col-lg-6">
-<label>Please Select Item</label>
-<select class="form-control"></select>
-<p class="help-block">Items must be approved.</p>
-</div>
-</div>
-<div class="row">
-<div class="form-group col-lg-6">
-<label>Used By Date</label>
-<input class="form-control" >
-</div>
-<div class="form-group col-lg-3">
-<label>Temperature</label>
-<select class="form-control"></select>
-</div>
-<div class="form-group col-lg-3">
-<label>Quantity</label>
-<select class="form-control">
-<option>1</option>
-<option>2</option>
-<option>3</option>
-<option>4</option>
-<option>5</option>
-<option>6</option>
-<option>7</option>
-<option>8</option>
-<option>9</option>
-<option>10</option>
-</select>
-</div>
-</div>
-</div>
-<div class="col-lg-12">
-<div class="row">
-<div class="form-group col-lg-6">
-<label>Comments</label>
-<textarea class="form-control" rows="3"></textarea>
-</div>
-<div class="col-lg-6 ">
-    <span class="bottomleft">
-<button type="submit" class="btn btn-primary">Add Item</button>
-<button type="submit" class="btn btn-primary">Delete Item</button>
-<button type="submit" class="btn btn-primary">Complete Order</button>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-   
-<div id="menu1" class="tab-pane fade">
-<!-- /.row -->
-<div class="row">
-<div class="col-lg-12">
-<div class="panel panel-primary">
-    <div class="panel-heading"><i class="fa fa-fire"></i>
-Record Cooking Here
-</div>
-<div class="panel-body">
-<div class="row">
-<div class="col-lg-12">
-<form role="form">
-
-<div class=row>
-<div class="form-group col-lg-6">
-<label>Please Select Item</label>
-<select class="form-control"></select>
-</div>
-<div class="form-group col-lg-3">
-<label>Temperature</label>
-<select class="form-control"></select>
-</div>
-<div class="form-group col-lg-3">
-<label>Please Select Thermometer</label>
-<select class="form-control"></select>
-</div>
-</div>
-<div class=row>
-    <div class="col-lg-6">
-    </div>
-<div class="col-lg-6">
-<button type="submit" class="btn btn-success">Start</button>
-<button type="submit" class="btn btn-warning">Mid Check</button>
-<button type="submit" class="btn btn-danger">Finished</button>
-<button type="submit" class="btn btn-danger">HotHold</button>
-<button type="submit" class="btn btn-primary">Cooling</button>
-<button type="submit" class="btn btn-primary">fridge</button>
-<button type="submit" class="btn btn-primary">freezer</button>
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-   
-   
-   <div id="menu2" class="tab-pane fade">
-   <!-- /.row -->
-   <div class="row">
-   <div class="col-lg-12">
-   <div class="panel panel-primary">
-   <div class="panel-heading">
-       <i class="fa fa-fire"></i>    Record Hot Hold Items Here 
-    </div>
-    <div class="panel-body">
-    <div class="row">
-    <div class="col-lg-12">
-    <form role="form">
-        <div class=row>
- <div class="form-group col-lg-6">
- <label>Please Select Supplier</label>
- <select class="form-control"></select>
- </div>
- <div class="form-group col-lg-6">
- <label>Please Select Item</label>
- <input id="tempHotHold" type="text"/>
- </div>
- </div>
- <div class="row">
-<div class="form-group col-lg-6">
-<label>Temperature</label>
-<input id="temp" type="range" min=60 max=80 tick=0.5/>
-</div>
-<div class="form-group col-lg-6">
-<label>Quantity</label>
-<input id="qty" type="range"/>
-</div>
-</div>
-</div>
-<div class="col-lg-12">
-<div class="row">
-<div class="form-group col-lg-6">
-<label>Comments</label>
-<textarea class="form-control" rows="3"></textarea>
-</div>
-<div class="col-lg-6 ">
-<span class="bottomleft">
-<button type="submit" class="btn btn-primary">Add Item</button>
-<button type="submit" class="btn btn-primary">Delete Item</button>
-<button type="submit" class="btn btn-primary">Complete Order</button>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-   
-   
-   <div id="menu3" class="tab-pane fade">
-   <!-- /.row -->
-   <div class="row">
-   <div class="col-lg-12">
-   <div class="panel panel-primary">
-   <div class="panel-heading">
-       <i class="fa fa-trash"></i>    Record Food Waste Here
-    </div>
-    <div class="panel-body">
-    <div class="row">
-    <div class="col-lg-12">
-    <form role="form">
-        <div class=row>
- <div class="form-group col-lg-6">
- <label>Please Select Item</label>
- <select class="form-control"></select>
- </div>
- <div class="form-group col-lg-6">
- <label>Please Select Quantity </label>
- <select class="form-control"></select>
- </div>
-        </div>
-        <div class=row>
- <div class="form-group col-lg-6">
- <label>Method Of Disposal</label>
- <select class="form-control"></select>
- </div>
-<div class="form-group col-lg-6">
-<label>Reason</label>
-<input id="tempHotHold"/  >
-</div>
-        </div>
-        <div class=row>
-            <div class="col-lg-6">
-            </div>
-<div class="col-lg-6 ">
-    <span class="bottomleft">
-<button type="submit" class="btn btn-primary">Bin Item</button>
-<button type="submit" class="btn btn-primary">Cancel</button>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-{% endblock %}
-{% block java_script %}
-<script type="text/javascript" src="static/js/jquery-1.11.0.js"></script>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-
-<script type="text/javascript" src="static/jquery.simple-dtpicker.js"></script>
-
-<!-- include the jQuery and jQuery UI scripts -->
-<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
-<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-
-<script type="text/javascript">
-onDocumentReady(){
-$("#tempHotHold").slider({min  : 0, max  : 10, value: 0, orientation: 'vertical', tooltip_position:'left'});                          
-</script>
-
-<script type="text/javascript">
-$(function(){
-        $('*[name=date_picker]').appendDtpicker({
-            "dateOnly": true,
-             "futureOnly": true
-            })
-
-});
-</script>
+{% block head_css %}
 {{super()}}
-{% endblock %}
+    <link rel="icon" type="image/png" href="static/img/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="static/img/apple-touch-favicon.png">
+    <link href="static/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css">
+    <link href="static/libs/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="static/libs/jquery.scrollbar/jquery.scrollbar.css" rel="stylesheet">
+    <link href="static/libs/ionrangeslider/css/ion.rangeSlider.css" rel="stylesheet">
+    <link href="static/libs/ionrangeslider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <link href="static/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="static/libs/datatables/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="static/libs/selectize/dist/css/selectize.default.css" rel="stylesheet">
+    <link href="static/libs/selectize/dist/css/selectize.bootstrap3.css" rel="stylesheet">
+    <link href="static/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="static/libs/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="static/libs/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="static/css/right.dark.css" rel="stylesheet" class="demo__css">
+    <link href="static/css/demo.css" rel="stylesheet"><!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    {%endblock%}
+    
+    {%block content%} 
+    {% if current_user.is_authenticated %}
+      Hi {{ current_user.name }}!
+      {% endif %}
+    <div class="main">
+          <div class="main__scroll scrollbar-macosx">
+            <div class="main__cont">
+              <div class="main-heading">
+                <div class="main-title">
+                  <ol class="breadcrumb">
+                    <li><a href="./">Dashboard</a></li>
+                    <li class="active">Cleaning Scheduling and Activities</li>
+                  </ol>
+                </div>
+                <div class="main-filter">
+                  <form class="main-filter__search">
+                    <div class="input-group">
+                      <input type="text" placeholder="Search..." class="form-control"><span class="input-group-btn">
+                        <button type="button" class="btn btn-default">
+                          <div class="fa fa-search"></div>
+                        </button></span>
+                    </div>
+                  </form>
+                </div>
+              </div>
+                          <div class="datalist__result">
+                            <ul role="tablist" class="nav nav-tabs">
+                              <li role="presentation"><a href="#tasks" aria-controls="task" role="tab" data-toggle="tab">Tasks&nbsp;</a></li>
+                              <li role="presentation"><a href="#alert" aria-controls="alert" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>Alert&nbsp;</a></li>
+                              <li role="presentation"><a href="#create" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;Create</a></li>
+                            </ul>
+                            <div class="tab-content">
+                              <div id="create" role="tabpanel" class="tab-pane">
+                                <form method="POST" name="addcleaning" class="form products-new">
+                                    {{csrf_token}}
+                                    <div class="container-fluid">
+                                    <div class="row">
+                                      <div class="col-md-8">
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <div class="form-group">
+                                              <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                                                <input required="" data-error="Please select an area to clean" name="location" type="text" placeholder="Area/Item" class="form-control">
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <div class="form-group">
+                                              <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-heartbeat"></i></div>
+                                                <select name="day" class="selectpicker" multiple>
+                                                  <option value="2">Monday</option>
+                                                  <option value="3">Tuesday</option>
+                                                  <option value="4">Wednesday</option>
+                                                  <option value="5">Thursday</option>
+                                                  <option value="6">Friday</option>
+                                                  <option value="7">Saturday</option>
+                                                  <option value="1">Sunday</option>
+                                                </select>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <div class="form-group">
+                                                <textarea name="description" data-minlength="10" rows="10" placeholder="Description: Use this area to describe the process for cleaning this area. Include any hazards people should look out for when completing the task." class="form-control"></textarea>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <button name="buttons" value="save" class="btn btn-success">Save</button>
+                                </form>
+                              </div>
+                              <div id="tasks" role="tabpanel" class="tab-pane active">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table name="tasktable" id="tasktable" width="100%" class="table table-condensed table-responsive table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th id="id" class="products__id">Area</th>
+                                          <th id="title" class="products__title">Description</th>
+                                          <th id="description" class="products__salary">Status</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                          {%for k,v in overview.items()%}
+                                          <tr>
+                                              <td>{{v['area']}}</td>
+                                              <td>{{v['description']}}</td>
+                                              {% if v['staff_id']==None%}
+                                                <td>Pending</td>
+                                                {%else%}
+                                                <td>Complete</td>
+                                                {%endif%}
+                                          </tr>
+                                          {%endfor%}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                              <div id="alert" role="tabpanel" class="tab-pane">
+                                <form method="POST" class="form products-new">
+                                    {{csrf_token}}
+                                    <div class="container-fluid">
+                                    <div class="row">
+                                      <div class="col-md-8">
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <div class="form-group">
+                                              <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                                                <select required name="location" id="location"placeholder="location" class="selectpicker">
+                                                    {%for k,v in todays_cleaning.items()%}
+                                                    <option value="{{v['area']}}">{{v['area']}}</option>
+                                                    {%endfor%}
+                                                </select>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <div class="form-group">
+                                              <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i></div>
+                                                <select required name="topic" id="topic" placeholder="Type" class="selectpicker">
+                                                  <option value="Broken/damaged Item">Broken/damaged Item</option>
+                                                  <option value="Low Cleaning Supplies">Low Cleaning Supplies</option>
+                                                  <option value="Complete">Complete</option>
+                                                </select>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <div class="form-group">
+                                              <textarea name="comment" required maxlength=220 minlength=4 fontsize="35" id="comment" rows="10" placeholder="Message" class="form-control"></textarea>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <button name="buttons" value="send" class="btn btn-success">Send</button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%endblock%}
+    {%block tail_js%}
+    {{supper}}
+    <script src="static/libs/jquery/jquery.min.js"></script>
+    <script src="static/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/libs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="static/libs/bootstrap-tabdrop/bootstrap-tabdrop.min.js"></script>
+    <script src="static/libs/sparkline/jquery.sparkline.min.js"></script>
+    <script src="static/libs/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="static/libs/inputNumber/js/inputNumber.js"></script>
+    <script src="static/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+    <script src="static/libs/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="static/libs/datatables/media/js/dataTables.select.js"></script>
+    <script src="static/libs/datatables/media/js/dataTables.bootstrap.js"></script>
+    <script src="static/libs/selectize/dist/js/standalone/selectize.min.js"></script>
+    <script src="static/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="static/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="static/js/template/products.js"></script>
+    <script src="static/js/main.js"></script>
+    <script src="static/js/demo.js"></script>
+    <script>
+
+$(document).ready(function(){
+
+    var table = $('#tasktable').DataTable({
+        'info':false,
+        'scroll':false,
+        'paging':false
+        }    );
+$('tasktable tbody').on('click', 'td', function(){
+var tr = $(this).closest('tr');
+var row = table.row(tr);
+var details = row.data[0];
+alert("hello");
+    
+});
+});
+    </script>
+    {%endblock%}

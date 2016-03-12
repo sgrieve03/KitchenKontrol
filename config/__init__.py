@@ -5,4 +5,6 @@ MAIL_PORT = 587
 MAIL_USE_TLS = True
 MAIL_USERNAME = "shauna.grieve@neueda.com"
 MAIL_PASSWORD = "Uls13210902"
-
+cleaning = 2
+pest = 1
+manager = 3

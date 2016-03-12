@@ -8,8 +8,8 @@ DROP TABLE IF EXISTS Telephone_Number;
 DROP TABLE IF EXISTS Address;
 DROP TABLE IF EXISTS Checks;
 DROP TABLE IF EXISTS Check_Type; 
-DROP TABLE IF EXISTS Cleaning_Rota;
-DROP TABLE IF EXISTS Cleaning_Strategy;
+DROP TABLE IF EXISTS Rota;
+DROP TABLE IF EXISTS Strategy;
 DROP TABLE IF EXISTS Staff_Training;
 DROP TABLE IF EXISTS Staff;
 DROP TABLE IF EXISTS Delivery_Item;
@@ -103,32 +103,34 @@ CREATE TABLE Check_Type
         PRIMARY KEY(Type_Id)
         );
 
-CREATE TABLE Cleaning_Strategy
+CREATE TABLE Strategy
         (
-        Area_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        Strategy_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        Ref_Type_id INT UNSIGNED NOT NULL,
         Area VARCHAR(50),
         Description VARCHAR(225),
-        PRIMARY KEY(Area_id)
+        PRIMARY KEY(Strategy_id)
         );
 
-CREATE TABLE Cleaning_Rota
+CREATE TABLE Rota
         (
-        Ref_Area_Id INT UNSIGNED NOT NULL,
+        Ref_Strategy_Id INT UNSIGNED NOT NULL,
         Day INT UNSIGNED NOT NULL,
+        Live Boolean DEFAULT TRUE, 
 
-        PRIMARY KEY(Ref_Area_Id, Day),
-        FOREIGN KEY(Ref_Area_Id) REFERENCES Cleaning_Strategy(Area_id)
+        PRIMARY KEY(Ref_Strategy_Id, Day),
+        FOREIGN KEY(Ref_Strategy_Id) REFERENCES Strategy(Strategy_id)
         );
 
 CREATE TABLE Checks
         (
         Ref_Type_Id INT UNSIGNED NOT NULL,
-        Ref_Area_id INT NOT NULL,
+        Ref_Strategy_id INT NOT NULL,
         Comment VARCHAR(225),
         Ref_Staff_Id INT NOT NULL,
         Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-        PRIMARY KEY(Ref_Area_Id, Date)
+        Complete Boolean, 
+        PRIMARY KEY(Ref_Strategy_Id, Date)
         );
 
 
