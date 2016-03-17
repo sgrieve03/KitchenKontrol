@@ -8,12 +8,15 @@ class User():
     def __init__(self, email=""):
         self.email = email
         self.id = user.get_user(email)
-    
+        
     def is_authenticated(self):
         return True
 
     def is_active(self):
         return True
+
+    def get_name(self):
+        return user.get_email(self.id)
 
     def get_id(self):
         return self.id
@@ -22,4 +25,4 @@ class User():
         return False
 
     def __repr__(self):
-        return '<User %r>' % (self.email)
+        return '<User %r>' % (self.id)

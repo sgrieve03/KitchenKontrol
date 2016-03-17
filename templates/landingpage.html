@@ -15,43 +15,52 @@
                     <div class="col-md-9">
                       <div class="panel panel-danger">
                         <div class="panel-heading">
-                          <h3 class="panel-title">User Statistics</h3>
+                          <h3 class="panel-title">User 30 Day Statistics</h3>
                         </div>
                         <div class="panel-body">
                             <div class="col-sm-12 text-center">
-                                      <label class="label label-success">Area Chart</label>
-                                            <div id="bar" ></div>
-                                                </div>
+                                <div id="line-chart"></div>
+                            </div>
                     </div>
                     </div>
                     </div>
                         <div class="col-md-3">
                       <div class="panel panel-success">
                         <div class="panel-heading">
-                          <h3 class="panel-title">Over View</h3>
+                          <h3 class="panel-title">Todays Activities</h3>
                         </div>
                         <div class="panel-body">
                           <div class="ov-widget">
                             <div class="ov-widget__list">
                               <div class="ov-widget__item ov-widget__item_dec">
-                                  <div class="ov-widget__value">{{cookingcomplete}}</div>
+                                  <div class="ov-widget__value">{{cleaningcount}}</div>
                                 <div class="ov-widget__info">
-                                  <div class="ov-widget__title">Cooking</div>
+                                  <div class="ov-widget__title">Cleaning Activities Remaining</div>
                                 </div>
                               </div>
                               <div class="ov-widget__item ov-widget__item_inc">
-                                  <div class="ov-widget__value">{{cooling}}</div>
+                                  <div class="ov-widget__value">{{pestcount}}</div>
                                 <div class="ov-widget__info">
-                                  <div class="ov-widget__title">Cooling</div>
+                                  <div class="ov-widget__title">Pest Activities Remaining</div>
                                 </div>
                               </div>
                               <div class="ov-widget__item ov-widget__item_warn">
-                                  <div class="ov-widget__value">{{hotholdcomplete}}</div>
+                                  {%if suppliers == None%}
+                                  <div class="ov-widget__value">None</div>
+                                  {% else %}
+                                  {% for s in suppliers %}
+                                  <div class="ov-widget__value">{{s}}</div>
+                                  {%endfor%}
+                                  {% endif %}
                                 <div class="ov-widget__info">
-                                  <div class="ov-widget__title">Hot Hold</div>
+                                  <div class="ov-widget__title">Deliveries Received</div>
                                 </div>
                               </div>
+                              <br>
                             </div>
+                            <div class="col-md-12">
+                    <a class="twitter-timeline" href="https://twitter.com/search?q=food%20hygiene" data-widget-id="709479729959665664">Tweets about food hygiene</a>
+                          </div>
                           </div>
                         </div>
                       </div>
@@ -79,20 +88,21 @@
     <script src="static/js/main.js"></script>
     <script src="static/js/demo.js"></script>
     <script>
-    $(function(){
+$(function(){
      var chart = Morris.Bar({
+         element: 'line-chart',
          data: [0,0],
-         xkey: 'day',
-         ykeys: ['value'],
-         labels: ['Tasks'],
+         xkey: 'stat',
+         ykeys: ['value', 'aim'],
+         labels: ['Actual', 'Aim'],
          fillOpacity: 0.6,
          resize: true,
-         barColors:['gray','red']
+         barColors:['red', "green"]
         });
         $.ajax({
            type: "GET",
            dataType: 'json',
-           url: "/index/user_stats"
+           url: "/home/charts"
            })
         .done(function(data){
             chart.setData(data);
@@ -100,7 +110,18 @@
         .fail(function(){
             alert("error occured");
         });
-        });
+});
+     </script>
+     <script>
+        !function(d,s,id){
+        var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+        if(!d.getElementById(id)){
+            js=d.createElement(s);js.id=id;
+            js.src=p+"://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js,fjs);
+        }
+        }
+        (document,"script","twitter-wjs");
      </script>
     
     {% endblock %}

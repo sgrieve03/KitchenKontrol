@@ -11,28 +11,38 @@ def get_user(email):
     for row in rows:
         return row[0]
 
+
 def get_user_stat(id):
     user_stat = {}
     c = d.cursor()
-    statement = '''select count(id) from temperature 
-        where id ="%s" and datetime > DateAdd(MM, -1, GetDate())
-        ;'''(id)
+    statement = '''select count(Ref_Staff_id) from Temperature 
+        where Ref_Staff_id ="%s" and date(datetime) between 
+        date(CURDATE())-INTERVAL 30 DAY AND CURDATE()
+        ;''' % (id)
     c.execute(statement)
-    user_stat['temperature'] = c.fetchall()
+    rows = c.fetchall()
+    for row in rows:
+        user_stat['Temperature'] = row[0]
 
-    statement = '''select count(id) from checks
-        where id = "%s" and ref_type_id = 1 and 
-        datetime > DateAdd(MM, -1, GetDate())
-        ;'''(id)
+    statement = '''select count(Ref_Staff_id) from Checks c
+        where Ref_Staff_id = "%s" and ref_type_id = 1 and 
+        date(c.date) between
+        date(CURDATE())-INTERVAL 30 DAY AND CURDATE()
+        ;''' % (id)
     c.execute(statement)
-    user_stat['Pest'] = c.fetchall()
+    rows = c.fetchall()
+    for row in rows:
+        user_stat['Pest'] = row[0]
 
-    statement = '''select count(id) from checks
-        where id = "%s" and ref_type_id=2 and 
-        datetime > DateAdd(MM, -1, GetDate())
-        ;'''(id)
+    statement = '''select count(Ref_Staff_id) from Checks c 
+        where Ref_Staff_id = "%s" and ref_type_id=2 and 
+        DATE(c.date) BETWEEN
+        DATE(CURDATE())-INTERVAL 30 DAY AND CURDATE()
+        ;''' % (id)
     c.execute(statement)
-    user_stat['Cleaning'] = c.fetchall()
+    rows = c.fetchall()
+    for row in rows:
+        user_stat['Cleaning'] = row[0]
 
     return user_stat
 

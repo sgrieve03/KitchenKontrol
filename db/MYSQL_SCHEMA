@@ -22,7 +22,7 @@ CREATE TABLE Suppliers
         (
         Supplier_ID VARCHAR(20) NOT NULL UNIQUE,
         Business_Name VARCHAR(100),
-        
+        Current BOOLEAN DEFAULT TRUE,
         PRIMARY KEY(Supplier_ID)
         );
 
@@ -33,7 +33,7 @@ CREATE TABLE Approved_Items
         Ref_Supplier_ID VARCHAR(20) NOT NULL,
         Cooked_Stat VARCHAR(10),
         Temp_Stat VARCHAR(10),
-
+        Current BOOLEAN DEFAULT TRUE,
         PRIMARY KEY(Approved_Item_ID),
         FOREIGN KEY(Ref_Supplier_ID) REFERENCES Suppliers(Supplier_ID)
         );
@@ -42,16 +42,16 @@ CREATE TABLE Appliance
         Appliance_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         Cooked_Stat VARCHAR(10),
         Temp_Stat VARCHAR(10),
+        Current BOOLEAN DEFAULT TRUE,
 
         PRIMARY KEY(Appliance_Id)
         )ENGINE=InnoDB AUTO_INCREMENT=1000;
 
 CREATE TABLE Delivery
         (
-        Invoice_Num INT NOT NULL UNIQUE,
+        Invoice_Num varchar(20) NOT NULL UNIQUE,
         Ref_Supplier_ID VARCHAR(20)NOT NULL,
         Datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        
         PRIMARY KEY(Invoice_Num),
         FOREIGN KEY(Ref_Supplier_ID) REFERENCES Suppliers(Supplier_ID)
         );
@@ -59,13 +59,13 @@ CREATE TABLE Delivery
 CREATE TABLE Delivery_Item 
         (
         Delivery_Item_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-        Ref_Invoice_Num INT NOT NULL,
+        Ref_Invoice_Num varchar(20) NOT NULL,
         Ref_Approved_Item_ID VARCHAR(15) NOT NULL,
         Quantity INT NOT NULL,
         Description VARCHAR(200),
-        Used_By_Date VARCHAR(8),
+        Used_By_Date VARCHAR(10),
         Ref_Appliance_Id INT UNSIGNED NOT NULL,
-        
+        Cancelled BOOLEAN DEFAULT FALSE,
         PRIMARY KEY(Delivery_Item_Id),
         FOREIGN KEY(Ref_Invoice_Num) REFERENCES Delivery(Invoice_Num),
         FOREIGN KEY(Ref_Approved_Item_ID) REFERENCES Approved_Items(Approved_Item_ID),
@@ -167,6 +167,7 @@ CREATE TABLE Thermometer
         (
         Thermometer_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         Purchase_Date CHAR(8) NOT NULL,
+        Current BOOLEAN DEFAULT TRUE,
 
         PRIMARY KEY(Thermometer_Id)
         )ENGINE=InnoDB AUTO_INCREMENT=2000;

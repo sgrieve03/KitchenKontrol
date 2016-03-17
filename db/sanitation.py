@@ -27,18 +27,18 @@ def create_strategy(ref_type, area, description, days):
             d.commit()
             print "rota added"
         return True
-    except: 
+    except:
         return False
 
 
 def get_todays_tasks(ref_type):
-    try:    
+    try:
         c = d.cursor()
         tasks = {}
-        statement = '''SELECT strategy_id, Area FROM Strategy JOIN 
-        Rota ON strategy_id = Ref_Strategy_Id 
-        WHERE Day=DAYOFWEEK(CURRENT_TIMESTAMP) 
-        and ref_type_id =%s;''' %(ref_type)
+        statement = '''SELECT strategy_id, Area FROM Strategy JOIN
+        Rota ON strategy_id = Ref_Strategy_Id
+        WHERE live=true and Day=DAYOFWEEK(CURRENT_TIMESTAMP)
+        and ref_type_id =%s;''' % (ref_type)
 
         c.execute(statement)
         rows = c.fetchall()
@@ -52,14 +52,30 @@ def get_todays_tasks(ref_type):
         return "None"
 
 
+def get_count_remaining_tasks(ref_type):
+    c = d.cursor()
+    statement = '''SELECT COUNT(s.Strategy_id) FROM Strategy s JOIN
+    Rota r on  s.strategy_id = r.Ref_Strategy_Id LEFT JOIN Checks c 
+    ON c.Ref_Strategy_Id = s.Strategy_id
+    WHERE live=true AND Day=DAYOFWEEK(CURRENT_TIMESTAMP)
+    AND s.ref_type_id =%s AND s.Strategy_id NOT IN (SELECT Ref_strategy_id
+    FROM Checks c WHERE DATE(c.date) = DATE(CURRENT_TIMESTAMP));''' % (ref_type)
+    c.execute(statement)
+    rows = c.fetchall()
+    for row in rows:
+        count = row[0]
+    return count
+
+
 def get_overview(ref_type):
-    try:
         c = d.cursor()
         overview = {}
         statement = '''SELECT s.strategy_id, s.area, s.description, c.ref_staff_id
         FROM Strategy s join Rota r ON s.strategy_id=r.ref_strategy_id
         LEFT JOIN Checks c on c.ref_strategy_id = s.strategy_id
-        WHERE DAYOFWEEK(CURRENT_TIMESTAMP) = r.day and s.ref_type_id = %s;'''\
+        WHERE DAYOFWEEK(CURRENT_TIMESTAMP) = r.day and s.ref_type_id = %s
+        AND s.strategy_id not in (select ref_strategy_id from Checks c where DATE(c.date)<
+        DATE(CURRENT_TIMESTAMP));'''\
         % (ref_type)
         c.execute(statement)
         rows = c.fetchall()
@@ -70,8 +86,6 @@ def get_overview(ref_type):
             overview[row[0]]["description"] = row[2]
             overview[row[0]]["staff_id"] = row[3]
         return overview
-    except:
-        return "None"
     
 
 def create_check(ref_type, area, comment, ref_staff_id):

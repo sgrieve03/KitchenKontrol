@@ -3,8 +3,9 @@ from wtforms import TextField, PasswordField, BooleanField,\
     validators, fields 
 from wtforms.validators import DataRequired
 from db import login, register, forgotpswd, sanitation
-from web import todays_cleaning, todays_pest
-
+from web import config
+todays_cleaning = sanitation.get_todays_tasks(config.cleaning)
+todays_pest = sanitation.get_todays_tasks(config.pest)
 
 class NewUser(Form):
     firstname = TextField('Username', 
@@ -98,3 +99,6 @@ class PestForm(Form):
 
     def save(self, ref_type, location, day, description):
         sanitation.create_strategy(ref_type, location, description, day)
+
+class OrdersForm(Form):
+    pass

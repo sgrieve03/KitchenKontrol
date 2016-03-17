@@ -105,6 +105,7 @@
                                     <table name="tasktable" id="tasktable" width="100%" class="table table-condensed table-responsive table-hover">
                                       <thead>
                                         <tr>
+                                            <th id="delete" class="product_id">Delete</th>
                                           <th id="id" class="products__id">Area</th>
                                           <th id="title" class="products__title">Description</th>
                                           <th id="description" class="products__salary">Status</th>
@@ -113,6 +114,7 @@
                                       <tbody>
                                           {%for k,v in overview.items()%}
                                           <tr>
+                                              <td> <i class="fa fa-trash-o fa-fw"></i></td>
                                               <td>{{v['area']}}</td>
                                               <td>{{v['description']}}</td>
                                               {% if v['staff_id']==None%}

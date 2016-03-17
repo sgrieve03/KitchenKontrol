@@ -504,8 +504,9 @@
                             </ul>
                             <div class="tab-content">
                               <div id="new" role="tabpanel" class="tab-pane">
-                                <form class="form products-new">
-                                  <div class="container-fluid">
+                                  <form id='upload-form' class="form products-new" method="post" enctype="multipart/form-data" action={{url_for('upload')}}>
+                                      <div type=hidden>{{form.csrf_token}}</div>
+                                      <div class="container-fluid">
                                     <div class="row">
                                       <div class="col-md-8">
                                         <div class="row">
@@ -558,13 +559,13 @@
                                         <div class="fileupload">
                                           <label>
                                             <div class="fa fa-image"></div>
-                                            <input type="file">
+                                            <input name="file" type="file" accept="image/*">
                                           </label>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                  <button class="btn btn-success">Save</button>
+                                  <button type="submit" class="btn btn-success">Save</button>
                                 </form>
                               </div>
                               <div id="brand" role="tabpanel" class="tab-pane active">

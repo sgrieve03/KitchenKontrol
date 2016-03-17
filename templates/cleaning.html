@@ -215,12 +215,11 @@ $(document).ready(function(){
         'scroll':false,
         'paging':false
         }    );
-$('tasktable tbody').on('click', 'td', function(){
+$('#tasktable tbody').on('click', 'td', function(){
 var tr = $(this).closest('tr');
 var row = table.row(tr);
-var details = row.data[0];
-alert("hello");
-    
+   row.remove();
+   table.draw();
 });
 });
     </script>
