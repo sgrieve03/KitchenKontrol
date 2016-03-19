@@ -131,7 +131,4 @@ app.jinja_loader = jinja2.FileSystemLoader(static)
 template = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app.jinja_loader = jinja2.FileSystemLoader(template)
 
-if __name__ == '__main__':
-    # start flask 
-    app.run(host='0.0.0.0', port=5050,)
 
