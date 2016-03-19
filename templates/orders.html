@@ -306,7 +306,7 @@
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
-                                                <input readonly  name="add_inv_num" id="add_inv_num" placeholder="Invoice Number" class="form-control">
+                                                <input name="add_inv_num" id="add_inv_num" placeholder="Invoice Number" class="form-control">
                                                 </input>
                                               </div>
                                             </div>
@@ -320,7 +320,7 @@
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i></div>
-                                              <select required="required" name="dataitems" id="dataitems" class="form-control">
+                                              <select required="required" name="additems" id="additems" class="form-control">
                                                   <option disabled="disabled" selected="selected"> please select item</option>
                                                 </select>
                                               </div>
@@ -655,7 +655,7 @@ function supplierFunction(){
         dataType:'json',
         success: function(result){
         var x = document.getElementById('dataitems');
-        while (x.length>1){
+        while (x.length > 1){
         x.remove(x.length-1);
         }
         for (v in result){
@@ -665,19 +665,35 @@ function supplierFunction(){
         }
         }
         });
-        return s;
 }
+
 function addFunction(){
-    s = supplierFunction();
-        $.ajax({
+    sup = document.getElementById('addsupplier');
+    s = sup.options[sup.selectedIndex].text;
         
+    $.ajax({
         type:'GET',
-        url: '/order/invoice',
+        url: '/orders/add',
         data:'a='+s,
         dataType:'json',
         success: function(result){
-        $('#new_inv_num').text = result;
-        }
+       
+            var x = document.getElementById('additems');
+            while (x.length > 1){
+            x.remove(x.length-1);
+            }
+            
+            for (r in result){
+                if (result[r].item){    
+                var option = document.createElement("option");
+                    option.text = result[r].item;
+                    x.add(option);
+                }
+                if (result[r].invoice){
+                    document.getElementById('add_inv_num').value = result[r].invoice;
+                    }
+                }
+            }
         });
 
 }

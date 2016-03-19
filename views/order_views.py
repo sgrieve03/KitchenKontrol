@@ -62,5 +62,16 @@ def enter():
 def suppliersItems():
     a = request.args.get('a')
     items = delivery.get_items(a)
-    print items
+    return json.dumps(items)
+
+
+@app.route("/orders/add")
+def add():
+    items =[]
+    a = request.args.get('a')
+    item =  delivery.get_items(a)
+    for k, v in item.items():
+        items.append({"item":v})
+    invoice =  delivery.get_order_invoice(a)
+    items.append({"invoice": invoice})
     return json.dumps(items)

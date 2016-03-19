@@ -66,6 +66,20 @@ def get_supplier_id(business_name):
     return supplier_id
 
 
+def get_order_invoice(business_name):
+    supplier_id = get_supplier_id(business_name)
+    c = d.cursor()
+    statement = '''SELECT invoice_num FROM Delivery WHERE
+    ref_Supplier_id = "%s" AND 
+    DATE(DATETIME) = DATE(CURRENT_TIMESTAMP);''' % (supplier_id)
+    c.execute(statement)
+    rows = c.fetchall()
+    for row in rows:
+        invoice_number = row[0]
+    return invoice_number 
+
+
+
 def get_approved_item_id(item, supplier_id):
     c = d.cursor()
     statement = '''Select approved_item_id from Approved_Items
@@ -161,6 +175,7 @@ def get_todays_suppliers():
     print "got todays suppliers"
     print suppliers
     return suppliers
+
 
 def get_overview():
     c = d.cursor()

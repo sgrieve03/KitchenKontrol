@@ -4,8 +4,11 @@ from flask_wtf.csrf import CsrfProtect
 from flask.ext.mail import Mail, Message
 from flask.ext.login import LoginManager, login_user,\
     logout_user, login_required
+from flask import render_template, request
+from flask import url_for, redirect
+
 # python
-import json
+import json, os, jinja2
 import config
 
 # application
@@ -13,8 +16,8 @@ import auth.forms
 import auth.models
 
 
-login_manager = LoginManager()
 app = Flask(__name__)
+login_manager = LoginManager()
 app.config.from_object('config')
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -26,11 +29,6 @@ app.use_reloader = True
 
 crsf = CsrfProtect()
 crsf.init_app(app)
-
-
-from flask import render_template, request
-from flask import url_for, redirect
-
 
 
 # visible  web pages
@@ -128,6 +126,12 @@ from views.order_views import *
 from views.sanitation_views import *
 from views.home_views import *
 
+static = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
+app.jinja_loader = jinja2.FileSystemLoader(static)
+template = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+app.jinja_loader = jinja2.FileSystemLoader(template)
 
-
+if __name__ == '__main__':
+    # start flask 
+    app.run(host='0.0.0.0', port=5050,)
 
