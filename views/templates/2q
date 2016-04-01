@@ -46,102 +46,25 @@
               </div>
                           <div class="datalist__result">
                             <ul role="tablist" class="nav nav-tabs">
-                <li role="presentation"><a href="#tasks" aria-controls="task" role="tab" data-toggle="tab">Orders Recieved&nbsp;</a></li>
-                <li role="presentation"><a href="#new" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>New Orders&nbsp;</a></li>
-                <li role="presentation"><a href="#add" aria-controls="new" role="tab" data-toggle="tab"<i class="fa fa-plus"></i>Add Item to Order&nbsp;</a></li>
-                <li role="presentation"><a href="#edit" aria-controls="new" role="tab" data-toggle="tab"><i class ="fa fa-edit"></i>Edit Order Item&nbsp;</a></li>
-               {% if current_user.is_admin()%}  <li role="presentation"><a href="#supplier" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;Add Approved Supplier</a></li>
-                               <li role="presentation"><a href="#item" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;Add Approved Item</a></li>
-                {% endif%}
-                            
+                    <li role="presentation"><a href="#tasks" aria-controls="task" role="tab" data-toggle="tab">Orders Recieved&nbsp;</a></li>
+                    <li role="presentation"><a href="#new" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>New Orders&nbsp;</a></li>
+                    <li role="presentation"><a href="#add" aria-controls="new" role="tab" data-toggle="tab"<i class="fa fa-plus"></i>Add Item to Order&nbsp;</a></li>
+                    <li role="presentation"><a href="#edit" aria-controls="new" role="tab" data-toggle="tab"><i class ="fa fa-edit"></i>Edit Order Item&nbsp;</a></li>
+                    <li role="presentation"><a href="#create" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;Create</a></li>
                             </ul>
                             <div class="tab-content">
-                              <div id="supplier" role="tabpanel" class="tab-pane">
-                                <form method="POST" name="create_supplier" class="form products-new"onsubmit="return false">
+                              <div id="create" role="tabpanel" class="tab-pane">
+                                <form method="POST" name="addcleaning" class="form products-new">
                                     {{form.csrf_token}}
                                     <div class="container-fluid">
-                                      <div class="col-md-6">
-                                        <div class="row">
-                                          <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="form-group col-md-12">
-                                              <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
-                 <input id="bname" onblur="checkSupplierExists()" required="required" data-error="Please Enter Business Name..." placeholder="business name" name="type" type="text" class="form-control">
-                                              </div>
-                                            </div>
-                                          </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-12">
-                                              <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-phone"></i></div>
-                                                <input id="atele" required="required" data-error="Please Enter Telephone..." pattern="^\s*\(?(020[7,8]{1}\)?[ ]?[1-9]{1}[0-9{2}[ ]?[0-9]{4})|(0[1-8]{1}[0-9]{3}\)?[ ]?[1-9]{1}[0-9]{2}[ ]?[0-9]{3})\s*$" placeholder="accounts number" name="type" type="text" class="form-control">
-                                              </div>
-                                            </div>
-                                      </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-12">
-                                              <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-phone"></i></div>
-                                                <input id="stele" required="required" data-error="Please Enter Telephone..." pattern="^\s*\(?(020[7,8]{1}\)?[ ]?[1-9]{1}[0-9{2}[ ]?[0-9]{4})|(0[1-8]{1}[0-9]{3}\)?[ ]?[1-9]{1}[0-9]{2}[ ]?[0-9]{3})\s*$" placeholder="sales number" name="type" type="text" class="form-control">
-                                              </div>
-                                            </div>
-                                      </div>
-                                      <br>
-                                          <div class="col-md-12">
-                                            <div class="form-group">
-                                              <div class="input-group">
-                                                  <div class="row">
-                                          <div id="lookup_field" class="col-md-12"></div>
-                                                  </div>
-                                                  <br>
-                                          <div class="row">
-                                          <label for="first_line">Address Line One</label>
-                                          <input required="required" data-error="Please Enter First Line" id="first_line"  class="col-md-12 form-control"type="text">
-                                          </div>
-                                          <div class="row">
-                                          <label for="second_line">Address Line Two</label>
-                                          <input id="second_line"  class="col-md-12 form-control"type="text">
-                                          </div>
-                                          <div class="row">
-                                          <label for="third_line">Address Line Three</label>
-                                          <input id="third_line"  class="col-md-12 form-control"type="text">
-                                          </div>
-                                          <div class="row">
-                                          <label for="town">Town</label>
-                                          <input required=required id="town"  class="col-md-12 form-control"type="text">
-                                          </div>
-                                          <div class="row">
-                                          <label for="postcode">Postcode</label>
-                                          <input required="required" pattern="[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" data-error="Please enter Postcode" id="postcode"  class="col-md-12 form-control"type="text">
-                                              </div>
-                                            </div>
-                                          </div>
-                                    </div>
-                                  <input id="save" onclick="addSupplier()" name="buttons" value="Save" class="btn btn-success"></input>
-                                </form>
-                              </div>
-                              </div>
-                              </div>
-                              </div>
-                              </div>
-                              <div id="item" role="tabpanel" class="tab-pane">
-                                <form method="POST" name="create_item_supplier" class="form products-new"onsubmit="return false">
-                                    {{form.csrf_token}}
-                                    <div class="container-fluid">
-                                        <div class="row">
+                                    <div class="row">
                                       <div class="col-md-8">
                                         <div class="row">
                                           <div class="col-md-6">
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
-                                    <select id="supplierAI" required="required" data-error="Please select..." name="type" type="text" class="form-control">
-                                                  <option value="">Please select...</option>
-                                                    {%for Supplier in suppliers%}
-                                                    <option value="{{Supplier}}">{{Supplier[0]}}</option>
-                                                    {%endfor%}
-                                                </select>
+                                                <input required="" data-error="Please select a supplier" name="location" type="text" placeholder="Supplier" class="form-control">
                                               </div>
                                             </div>
                                           </div>
@@ -149,36 +72,30 @@
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-heartbeat"></i></div>
-                                                <input name="itemAI" class="form-control" placeholder="Item Name">
-                                                </input>
+                                                <select name="day" class="selectpicker" multiple>
+                                                  <option value="2">Monday</option>
+                                                  <option value="3">Tuesday</option>
+                                                  <option value="4">Wednesday</option>
+                                                  <option value="5">Thursday</option>
+                                                  <option value="6">Friday</option>
+                                                  <option value="7">Saturday</option>
+                                                  <option value="1">Sunday</option>
+                                                </select>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
                                         <div class="row">
-                                          <div class="col-md-6">
+                                          <div class="col-md-12">
                                             <div class="form-group">
-                                                <select id="tstat" class="form-control" required=required>
-                                                    <option value="">Select temp stat</option>
-                                                    <option value="Fridge">Fridge</option>
-                                                    <option value="Freeze">Freeze</option>
-                                                </select>
-                                            </div>
-                                          </div>
-                                          <div class="col-md-6">
-                                            <div class="form-group">
-                                                <select id="cstat" class="form-control" required="required">
-                                                    <option value="">Select cooked stat</option>
-                                                    <option value="Cooked">Cooked</option>
-                                                    <option value="Raw">Raw</option>
-                                                </select>
+                                                <textarea name="description" data-minlength="10" rows="10" placeholder="Description: Use this area to describe the process for cleaning this area. Include any hazards people should look out for when completing the task." clas="form-control"></textarea>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                  <button name="buttons" value="save" class="btn btn-success">Save</button>
                                   </div>
+                                  <button name="buttons" value="save" class="btn btn-success">Save</button>
                                 </form>
                               </div>
                               <div id="tasks" role="tabpanel" class="tab-pane active">
@@ -187,11 +104,11 @@
                                     <table name="deliverytable" id="deliverytable" width="100%" class="table table-condensed table-responsive table-hover">
                                       <thead>
                                         <tr>
-                                          <th id="s_id" class="products__id">Supplier Id</th>
-                                          <th id="i_num" class="products__id">Invoice Num</th>
-                                          <th id="i" class="products__description">Item</th>
-                                          <th id="quanty" class="products__salary">Quantity</th>
-                                          <th id="used_by_d" class="products__salary">Used By Id</th>
+                                          <th id="supplier_id" class="products__id">Supplier Id</th>
+                                          <th id="invoice_num" class="products__id">Invoice Num</th>
+                                          <th id="item" class="products__description">Item</th>
+                                          <th id="quantity" class="products__salary">Quantity</th>
+                                          <th id="used_by_date" class="products__salary">Used By Id</th>
                                         </tr>
                                       </thead>
                                       <tbody>
@@ -218,8 +135,8 @@
       <div class="input-group">
        <div class="input-group-addon"><i class="fa fa-map-marker"></i>
        </div>
-              <select required="required" name="supplier" id="recordsupplier" onchange="supplierFunction()" placeholder="Supplier" class="selectpicker">
-              <option selected="selected" value="" disabled="disabled" >Please Select Supplier</option>
+              <select required="required" name="supplier" id="supplier" onchange="supplierFunction()" placeholder="Supplier" class="selectpicker">
+              <option selected="selected" disabled="disabled" >Please Select Supplier</option>
                       {%for Supplier in suppliers%}
                       <option value="{{Supplier}}">{{Supplier[0]}}</option>
                       {%endfor%}
@@ -232,7 +149,7 @@
         <div class="input-group">
          <div class="input-group-addon"><i class="fa fa-map-marker"></i>
          </div>
-                                                <input onblur="checkInvoiceNum()"value="" required="required" name="recordinv_num" id="recordinv_num" placeholder="Invoice Number" class="form-control">
+                                                <input onblur="checkInvoiceNum()" required="required" name="inv_num" id="inv_num" placeholder="Invoice Number" class="form-control">
                                                 
                                                </input>
         </div>
@@ -240,15 +157,15 @@
       </div>
      </div>
                                       <br>
-                            <form id="inner" onsubmit="return false">
+                            <form id="inner">
     <div class = "col-md-12">
      <div class="row">
       <div class="col-md-3">
        <div class="form-group">
         <div class="input-group">
          <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i>
-         </div><fieldset>
-                                              <select value="" required="required" name="dataitems" id="recorditems" class="form-control">
+         </div>
+                                              <select required="required" name="dataitems" id="dataitems" class="form-control">
                                                   <option disabled="disabled" selected="selected"> please select item</option>
                                    </select>
         </div>
@@ -259,7 +176,7 @@
         <div class="input-group">
          <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i>
          </div>
-                                                <select value="" required="required" name="qty" id="recordqty" class="form-control">
+                                                <select required="required" name="qty" id="qty" class="form-control">
                                                     <option disabled="disabled" selected="selected">Please Select Quantity</option>
                                                     <option>1</option>
                                                     <option>2</option>
@@ -276,7 +193,7 @@
        <div class="ss-widget__label">Temperature
        </div>
        <div class="ss-widget__value">
- <input required="required" type="text" name="temperature" id=recordtemperature  data-grid="false" data-min="-18" data-max="8" data-from="0" data-step="0.5" class="settings-slider">
+ <input type="text" name="temperature" id=temperature value="" data-grid="false" data-min="-18" data-max="8" data-from="0" data-step="0.5" class="settings-slider">
        </div>
       </div>
      </div>
@@ -285,14 +202,10 @@
        <div class="input-group">
         <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i>
         </div>
-                                               <select required="required" name="thermometer" id="recordthermometer" class="form-control">
+                                               <select required="required" name="thermometer" id="thermometer" class="form-control">
                                                     <option disabled="disabled" selected="selected">Please Select Thermometer</option>
-                                                    {%for k, v in thermometers.items()%}
-                                                    {% if v['stat'] == 'Raw'%}
-                                                    <option style="color:red">{{v['id']}}</option>
-                                                    {% else %}
-                                                    <option style="color:green">{{v['id']}}</option>
-                                                    {%endif%}
+                                                    {%for thermometer in thermometers%}
+                                                    <option>{{thermometer}}</option>
                                                     {%endfor%}
                                                 </select>
        </div>
@@ -307,7 +220,7 @@
        <div class="input-group">
         <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i>
         </div>
-         <input required="required" placeholder="Please select used_by_date" name="used_by" id="recordused_by" selected=Date class="form-control"></input>
+         <input required="required" placeholder="Please select used_by_date" name="used_by" id="used_by" selected=Date class="form-control"></input>
        </div>
       </div>
      </div>
@@ -316,7 +229,7 @@
        <div class="input-group">
         <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i>
         </div>
-                                                <select required="required" name="destination" id="recorddestination" placeholder="Type" class="form-control">
+                                                <select required="required" name="destination" id="destination" placeholder="Type" class="form-control">
                                                     <option disabled="disabled" selected="selected">Please Select Destination</option>
                                                     {%for  appliances in appliance%}
                                                     <option>{{appliances}}</option>
@@ -330,7 +243,7 @@
     <div class="input-group">
      <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i>
      </div>
-                                 <select required="required" name="status" id="recordstatus" placeholder="Type" class="form-control">
+                                 <select required="required" name="status" id="status" placeholder="Type" class="form-control">
                                                 <option value="" disabled=disabled selected="selected" disabled selected style="display:none;">Please Select Status</option>
                                                     <option>Low Quality - Unacceptable</option>
                                                     <option>Medium Quality - Acceptable</option>
@@ -341,9 +254,9 @@
   </div>
   <div class="col-md-3">
    <div class ="form-group">
-                        <input id="resetbtn" type=reset style="display:none"  class="btn btn-success"></input>
-                       <button onclick="additemFunction()" value="add item"  id="recordbutton" class="btn btn-success">Add Item</button>
-   </div></fieldset>
+                        <input id="resetbtn" type=reset style="display:none" onclick="additemFunction()" class="btn btn-success"></input>
+                       <button type=submit value="add item" name="buttons" class="btn btn-success">Add Item</button>
+   </div>
                                         </form>       
   </div>
                                 <br>
@@ -353,7 +266,7 @@
                                     <table name="deliveryitems" id="deliveryitems" width="100%" class="table table-condensed table-responsive table-hover">
                                       <thead>
                                         <tr>
-                                         <th id="s_id" class="products__id">Supplier Id</th>
+                                          <th id="s_id" class="products__id">Supplier Id</th>
                                           <th id="i_num" class="products__id">Invoice Num</th>
                                           <th id="i" class="products__description">Item</th>
                                           <th id="quant" class="products__salary">Quantity</th>
@@ -366,7 +279,7 @@
                                       </thead>
                                     </table>
                                   </div>
-                                  <input type="submit"  id="recordsubmit" class="btn btn-success" value="Complete Order"></input>
+                                  <input type="submit"  id="submit" class="btn btn-success" value="Complete Order"></input>
                                 </form> 
                             </div>
                             </div>
@@ -381,7 +294,7 @@
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
-                                                <select required="required" name="add_supplier" id="add_supplier" onchange="addFunction()" placeholder="Supplier" class="selectpicker">
+                                                <select required="required" name="addsupplier" id="addsupplier" onchange="addFunction()" placeholder="Supplier" class="selectpicker">
                                                     <option selected="selected" disabled="disabled" >Please Select Supplier</option>
                                                     {%for Supplier in todays_suppliers%}
                                                     <option value="{{Supplier}}">{{Supplier}}</option>
@@ -401,14 +314,14 @@
                                           </div>
                                       </div>
                                       <br>
-                            <form id="addinner"onsubmit="return false">
+                            <form id="inner">
                                 <div class = "col-md-12">
                                         <div class="row">
                                           <div class="col-md-3">
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i></div>
-                                              <select required="required" name="additems" id="add_items" class="form-control">
+                                              <select required="required" name="additems" id="additems" class="form-control">
                                                   <option disabled="disabled" selected="selected"> please select item</option>
                                                 </select>
                                               </div>
@@ -435,7 +348,7 @@
                      <div class="ss-widget__item">
                     <div class="ss-widget__label">Temperature</div>
                     <div class="ss-widget__value">
- <input type="text" name="temperature" id=add_temperature required="required" data-grid="false" data-min="-18" data-max="8" data-from="0" data-step="0.5" class="settings-slider">
+ <input type="text" name="temperature" id=add_temperature value="" data-grid="false" data-min="-18" data-max="8" data-from="0" data-step="0.5" class="settings-slider">
                   </div>
                    </div>
                                           </div>
@@ -445,12 +358,8 @@
                                                 <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i></div>
                                                 <select required="required" name="thermometer" id="add_thermometer" class="form-control">
                                                     <option disabled="disabled" selected="selected">Please Select Thermometer</option>
-                                                    {%for k, v in thermometers.items()%}
-                                                    {% if v['stat'] == 'Raw'%}
-                                                    <option style="color:red">{{v['id']}}</option>
-                                                    {% else %}
-                                                    <option style="color:green">{{v['id']}}</option>
-                                                    {%endif%}
+                                                    {%for thermometer in thermometers%}
+                                                    <option>{{thermometer}}</option>
                                                     {%endfor%}
                                                 </select>
                                               </div>
@@ -496,8 +405,8 @@
                                           </div>
                                         <div class="col-md-3">
                                             <div class ="form-group">
-                        <input id="add_resetbtn" type=reset style="display:none" class="btn btn-success"></input>
-                                      <button onclick="addtoitemsFunction()"  value="add item" name="add_button" class="btn btn-success">Add Item</button>
+                        <input id="edit_resetbtn" type=reset style="display:none" onclick="additemFunction()" class="btn btn-success"></input>
+                                      <button type=submit value="add item" name="buttons" class="btn btn-success">Add Item</button>
                                         </div>
                                         </form>       
                                         </div>
@@ -593,7 +502,7 @@
                      <div class="ss-widget__item">
                     <div class="ss-widget__label">Temperature</div>
                     <div class="ss-widget__value">
- <input type="text" required="required" name="temperature" id=edit_temperature data-grid="false" data-min="-18" data-max="8" data-from="0" data-step="0.5" class="settings-slider">
+ <input type="text" name="temperature" id=edit_temperature data-grid="false" data-min="-18" data-max="8" data-from="0" data-step="0.5" class="settings-slider">
                   </div>
                    </div>
                                           </div>
@@ -694,7 +603,6 @@
     {{supper}}
     <script src="static/libs/jquery/jquery.min.js"></script>
     <script src="static/libs/bootstrap/js/bootstrap.min.js"></script>
-    <script src="static/js/plugins/postcodes/postcodes.min.js"></script>
     <script src="static/libs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
     <script src="static/libs/bootstrap-tabdrop/bootstrap-tabdrop.min.js"></script>
     <script src="static/libs/sparkline/jquery.sparkline.min.js"></script>
@@ -729,7 +637,7 @@ $(document).ready(function(){
                     table.draw();
     });
 
-    var date1 = $('#recordused_by').datepicker({
+    var date1 = $('#used_by').datepicker({
         startDate: Date()
     });
     var date2 = $('#add_used_by').datepicker({
@@ -743,9 +651,9 @@ $(document).ready(function(){
 
 
 function checkInvoiceNum(){
-num = document.getElementById('recordinv_num'); 
+num = document.getElementById('inv_num'); 
 num.value = num.value.toUpperCase();
-n = $('#recordinv_num').val()
+n = $('#inv_num').val()
         $.ajax({
         type:'GET',
         url: '/checkInvoice',
@@ -760,7 +668,7 @@ n = $('#recordinv_num').val()
     });
 }
 function supplierFunction(){
-    sup = document.getElementById('recordsupplier');
+    sup = document.getElementById('supplier');
     s = sup.options[sup.selectedIndex].text;
         $.ajax({
         
@@ -769,7 +677,7 @@ function supplierFunction(){
         data:'a='+s,
         dataType:'json',
         success: function(result){
-        var x = document.getElementById('recorditems');
+        var x = document.getElementById('dataitems');
         while (x.length > 1){
         x.remove(x.length-1);
         }
@@ -782,10 +690,8 @@ function supplierFunction(){
         });
 }
 
-
 function addFunction(){
-
-    sup = document.getElementById('add_supplier');
+    sup = document.getElementById('addsupplier');
     s = sup.options[sup.selectedIndex].text;
         
     $.ajax({
@@ -795,7 +701,7 @@ function addFunction(){
         dataType:'json',
         success: function(result){
        
-            var x = document.getElementById('add_items');
+            var x = document.getElementById('additems');
             while (x.length > 1){
             x.remove(x.length-1);
             }
@@ -812,7 +718,7 @@ function addFunction(){
                 }
             }
         });
-    }
+}
 
 function editFunction(){
     sup = document.getElementById('edit_supplier');
@@ -865,95 +771,48 @@ var table4 = $('#edit_table').DataTable({
 });
 var i =0;
 function additemFunction(){
-    sup = document.getElementById('recordsupplier');
+    sup = document.getElementById('supplier');
     s = sup.options[sup.selectedIndex].text;
-    invoice = $('#recordinv_num').val();
-    item = document.getElementById('recorditems');
-    it= item.options[item.selectedIndex].text;
-    qty = document.getElementById('recordqty');
+    invoice = $('#inv_num').val();
+    item = document.getElementById('dataitems');
+    i= item.options[item.selectedIndex].text;
+    qty = document.getElementById('qty');
     q = qty.options[qty.selectedIndex].text;
-    temp = $('#recordtemperature').val();
-    therm = document.getElementById('recordthermometer');
+    temp = $('#temperature').val();
+    therm = document.getElementById('thermometer');
     th = therm.options[therm.selectedIndex].text;
-    used_by_date = $('#recordused_by').val();
-    dest = document.getElementById('recorddestination');
+    used_by_date = $('#used_by').val();
+    dest = document.getElementById('destination');
     d = dest.options[dest.selectedIndex].text;
-    stat = document.getElementById('recordstatus');
+    stat = document.getElementById('status');
     st = stat.options[stat.selectedIndex].text;
-   
-    var myArray = [s,i,q,temp,th,used_by_date,d,st];
-    go =true;
-
-    for (i=0; i<myArray.length; i++){
-        if( myArray[i] == ''){
-            go =false;
-        }
-    }
-    if (go){
+    
     if (table2.rows().data().length<2){
     $.ajax({
             type:'GET',
             url: '/orders/enter',
-            data:{"business_name":s, "invoice":invoice, "item": it, "qty":q, "temp":temp, "therm":th, "ubd":used_by_date, "dest":d, "status":st},
+            data:{"business_name":s, "invoice":invoice, "item": i, "qty":q, "temp":temp, "therm":th, "ubd":used_by_date, "dest":d, "status":st},
             success: function(){
-                $('#resetbtn').click(); 
-                table2.row.add([s, invoice, it, q, temp, th, used_by_date,d, st]).draw();
+                alert("success");
+                table2.row.add([s, invoice, i, q, temp, th, used_by_date,d, st]).draw();
             },
               error: function(XMLHttpRequest, textStatus, errorThrown) { 
+             alert("ITEM NOT ADDED, PLEASE CHECK DETAILS AND TRY AGAIN");
     }    });
     i+=1;
     }else{
     $.ajax({
             type:'GET',
             url: '/orders/enter',
-            data:{"supplier_id":s, "item":it, "invoice":invoice, "qty":q, "temp":temp, "therm":th, "ubd":used_by_date, "dest":d, "status":st},
+            data:{"supplier_id":s, "item":i, "invoice":invoice, "qty":q, "temp":temp, "therm":th, "ubd":used_by_date, "dest":d, "status":st},
             success: function(){
-                $('#resetbtn').click(); 
-                table2.row.add([s, invoice, it, q, temp, th, used_by_date,d, st]).draw();
-            },
-              error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                                  }});}}
+                alert("success");
+                table2.row.add([s, invoice, i, q, temp, th, used_by_date,d, st]).draw();
+            }
+});}}
 
-}
-function addtoitemsFunction(){
-    sup = document.getElementById('add_supplier');
-    s = sup.options[sup.selectedIndex].text;
-    invoice = $('#add_inv_num').val();
-    item = document.getElementById('add_items');
-    it= item.options[item.selectedIndex].text;
-    qty = document.getElementById('add_qty');
-    q = qty.options[qty.selectedIndex].text;
-    temp = $('#add_temperature').val();
-    therm = document.getElementById('add_thermometer');
-    th = therm.options[therm.selectedIndex].text;
-    used_by_date = $('#add_used_by').val();
-    dest = document.getElementById('add_destination');
-    d = dest.options[dest.selectedIndex].text;
-    stat = document.getElementById('add_status');
-    st = stat.options[stat.selectedIndex].text;
-    
-    var myArray = [s,it,q,temp,th,used_by_date,d,st];
-    go =true;
+var stat ="";
 
-    for (i=0; i<myArray.length; i++){
-        if( myArray[i] == ''){
-            go =false;
-        }
-    }
-    if (go){
-    $.ajax({
-            type:'GET',
-            url: '/orders/addtoitems',
-            data:{"business_name":s, "invoice":invoice, "item": it, "qty":q, "temp":temp, "therm":th, "ubd":used_by_date, "dest":d, "status":st},
-            success: function(){
-                $('#add_resetbtn').click(); 
-                table3.row.add([s, invoice, it, q, temp, th, used_by_date,d, st]).draw();
-            },
-              error: function(XMLHttpRequest, textStatus, errorThrown) { 
-             alert("ITEM NOT ADDED, PLEASE CHECK DETAILS AND TRY AGAIN");
-    }    });
-    }
-}
 function loaditem(){
 item = document.getElementById("edit_items");
 i = item.options[item.selectedIndex].text;
@@ -965,7 +824,7 @@ $.ajax({
     dataType:'json',
     success: function(result){
         $('#edit_qty').val(result.qty).attr('selected', 'selected');
-        $('#edit_temperature').value =result.temperature;
+        $('#edit_temperature').val(result.temperature).change();
         therm = document.getElementById('edit_thermometer'); 
         therm.value = result.thermometer;
         used = document.getElementById('edit_used_by'); 
@@ -976,107 +835,43 @@ $.ajax({
         stat.value = result.status;
         stat.selected = result.status;
 
-    },
-              error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                 alert("Error: " + errorThrown); 
+    }
 
-
-                                   }});}
+});}
 function edititemFunction(){
     sup = document.getElementById('edit_supplier');
     s = sup.options[sup.selectedIndex].text;
     invoice = document.getElementById("edit_inv_num").value;
     item = document.getElementById('edit_items');
-    it= item.options[item.selectedIndex].text;
+    i= item.options[item.selectedIndex].text;
     qty = document.getElementById('edit_qty');
     q = qty.value;
-    temp = $('#edit_temperature').val();
+    temp = $('#edit_temperature').value;
     therm = document.getElementById('edit_thermometer');
-    th = therm.options[therm.selectedIndex].text;
-    used_by_date = $('#edit_used_by').val();
+    th = therm.options[therm.selectedIndex].value;
+    used_by_date = $('#edit_used_by').value;
     dest = document.getElementById('edit_destination');
     d = dest.options[dest.selectedIndex].value;
     st = stat.options[stat.selectedIndex].value;
     
-    var myArray = [s,it,q,temp,th,used_by_date,d,st];
-    go =true;
-
-    for (i=0; i<myArray.length; i++){
-        if( myArray[i] == ''){
-            go =false;
-        }
-    }
-    if (go){
     $.ajax({
             type:'GET',
             url: '/orders/update',
-            data:{"business_name":s, "invoice":invoice, "item": it, "qty":q, "temp":temp, "therm":th, "ubd":used_by_date, "dest":d, "status":st},
+            data:{"business_name":s, "invoice":invoice, "item": i, "qty":q, "temp":temp, "therm":th, "ubd":used_by_date, "dest":d, "status":st},
             success: function(){
+                alert("success");
                 $('#edit_resetbtn').click(); 
-                table4.row.add([s, invoice, it, q, temp, th, used_by_date,d, st]).draw();
-            },
-              error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                 alert("Error: " + errorThrown); 
-    }});
-}
-}
-
-function addSupplier(){
-businessName = $('#bname').val(); 
-salestelephone = $('#stele').val();
-accountstelephone = $('#atele').val();
-line_1 = $('#first_line').val();
-line_2 = $('#second_line').val();
-line_3 = $('#third_line').val();
-town = $('#town').val();
-postcode = $('#postcode').val();
-    var myArray = [businessName, salestelephone, accountstelephone, line_1, town, postcode];
-    go =true;
-
-    for (i=0; i<myArray.length; i++){
-        if( myArray[i] == ''){
-            go =false;
-        }
-    }
-    if (!go){
-                                   alert("please fill in required fields");
-                                   }
-    if (go){
-    $.ajax({
-            type:'GET',
-            url: '/orders/addSupplier',
-            data:{"bname":businessName, "stele":salestelephone, "atele": accountstelephone, "line_1":line_1, "line_2":line_2, "line_3":line_3, "town":town, "postcode":postcode},
-            success: function(result){
-                                   alert(result.success);
+                table2.row.add([s, invoice, i, q, temp, th, used_by_date,d, st]).draw();
             },
               error: function(XMLHttpRequest, textStatus, errorThrown) { 
                  alert("Error: " + errorThrown); 
     }});
 }
 
-
-
-}
-function checkSupplierExists(){
-
-}
-</script>
-
-<script>
-$('#lookup_field').setupPostcodeLookup({
-  api_key: 'ak_ilz75c3nNTED3bbKcF2RAU6ArCK56',
-  output_fields: {
-      line_1: '#first_line',
-      line_2: '#second_line',
-      line_3: '#third_line',
-      post: '#town',
-      postcode: '#postcode'
-      },
-      button_class: 'my-button-class',
-     input_class: 'my-input-class'
+$('#inner').submit(function(){
+   $('#resetbtn').click(); 
+    return false;
 });
+
 </script>
-
-
-
 {%endblock%}

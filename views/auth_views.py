@@ -15,6 +15,7 @@ import config
 import auth.forms
 import auth.models
 
+from db import user
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -51,9 +52,6 @@ def forgotpassword():
         return redirect(url_for('login'))
 
 
-@app.route("/inspection")
-def inspection():
-    return render_template("inspection.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -80,10 +78,10 @@ def login():
         return (render_template('login.html',
             form=form, errors=errors))
     email = request.form['email']
-    global current_email
     current_email = email
     print current_email
-    registered_user = auth.models.User(email=email)
+    uid = user.get_user_id(email)
+    registered_user = auth.models.User(user_id=uid)
     remember_me = False
     if 'remember' in request.form:
         remember_me = True
@@ -114,9 +112,6 @@ def device():
 @login_manager.user_loader
 def load_user(user_id):
     u = auth.models.User(user_id)
-    global current_user
-    current_user = user_id
-    print user_id
     if u:
         return u
     else:
@@ -125,7 +120,7 @@ def load_user(user_id):
 from views.order_views import *
 from views.sanitation_views import *
 from views.home_views import *
-
+from views.device_views import *
 static = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 app.jinja_loader = jinja2.FileSystemLoader(static)
 template = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')

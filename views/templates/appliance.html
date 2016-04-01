@@ -30,7 +30,7 @@
                 <div class="main-title">
                   <ol class="breadcrumb">
                     <li><a href="./">Dashboard</a></li>
-                    <li class="active">Pest Control Scheduling and Activities</li>
+                    <li class="active">Record Appliance and Device Temperatures</li>
                   </ol>
                 </div>
                 <div class="main-filter">
@@ -48,8 +48,9 @@
                             <ul role="tablist" class="nav nav-tabs">
                               <li role="presentation"><a href="#tasks" aria-controls="task" role="tab" data-toggle="tab">Tasks&nbsp;</a></li>
                               <li role="presentation"><a href="#alert" aria-controls="alert" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>Alert&nbsp;</a></li>
-                   {% if current_user.is_admin()%}            <li role="presentation"><a href="#create" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;Create</a></li>
-      {% endif %}
+                                {% if current_user.is_admin() %}
+                              <li role="presentation"><a href="#create" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;Create</a></li>
+                                {% endif %}
                             </ul>
                             <div class="tab-content">
                               <div id="create" role="tabpanel" class="tab-pane">
@@ -87,7 +88,7 @@
                                         <div class="row">
                                           <div class="col-md-12">
                                             <div class="form-group">
-                                                <textarea name="description" data-minlength="10" rows="10" placeholder="Are there any signs of infestion? Is the Poison damp? Did you replace anything? Is the area unsafe for any reason?" class="form-control"></textarea>
+                                                <textarea name="description" data-minlength="10" rows="10" placeholder="Description: Use this area to describe the process for cleaning this area. Include any hazards people should look out for when completing the task." class="form-control"></textarea>
                                             </div>
                                           </div>
                                         </div>
@@ -103,16 +104,15 @@
                                     <table name="tasktable" id="tasktable" width="100%" class="table table-condensed table-responsive table-hover">
                                       <thead>
                                         <tr>
-                                            <th id="delete" class="product_id">Delete</th>
                                           <th id="id" class="products__id">Area</th>
                                           <th id="title" class="products__title">Description</th>
                                           <th id="description" class="products__salary">Status</th>
                                         </tr>
                                       </thead>
                                       <tbody>
+                                          {% if overview %}
                                           {%for k,v in overview.items()%}
                                           <tr>
-                                              <td> <i class="fa fa-trash-o fa-fw"></i></td>
                                               <td>{{v['area']}}</td>
                                               <td>{{v['description']}}</td>
                                               {% if v['staff_id']==None%}
@@ -122,6 +122,7 @@
                                                 {%endif%}
                                           </tr>
                                           {%endfor%}
+                                          {% endif %}
                                       </tbody>
                                     </table>
                                   </div>
@@ -132,45 +133,55 @@
                                     {{form.csrf_token}}
                                     <div class="container-fluid">
                                     <div class="row">
-                                      <div class="col-md-8">
+                                      <div class="col-md-6">
                                         <div class="row">
-                                          <div class="col-md-6">
+                                          <div class="col-md-12">
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
-                                                <select required name="location" id="location"placeholder="location" class="selectpicker">
-                                                    {%for k,v in todays_pest.items()%}
-                                                    <option value="{{v['area']}}">{{v['area']}}</option>
+                                                <select onchange="changeThermometer()" required name="location" id="device"placeholder="location" class="selectpicker">
+                                                    <option >Please select </option>
+                                                    {%for k,v in devices.items()%}
+                                                    <option value="{{v['range']}}">{{v['range']}}: {{v['device']}}</option>
                                                     {%endfor%}
                                                 </select>
                                               </div>
                                             </div>
                                           </div>
-                                          <div class="col-md-6">
+     
+                                          <div class="col-md-12">
+                                          <div class="ss-widget__item">
+                                          <div class="ss-widget__label">Temperature
+                                          </div>
+               <div class="ss-widget__value">
+<input type="range" id=temp  min="-18" max="8" value="0" step="0.5" data-rangeslider >
+                                          </div>
+                                             </div>
+                                            </div>
+
+                                          <div class="col-md-12">
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-exclamation-triangle"></i></div>
                                                 <select required name="topic" id="topic" placeholder="Type" class="selectpicker">
-                                                  <option value="Broken/damaged Item">Broken/damaged trap</option>
-                                                  <option value="Low Cleaning Supplies">Low Poison</option>
-                                                  <option value="Complete">Check Complete</option>
+                                                  <option value="Broken/damaged Item">Please Select Thermometer from List</option>
+                                                    {%for k, v in thermometers.items()%}
+                                                    {% if v['stat'] == 'Raw'%}
+                                                    <option style="color:red">{{v['id']}}</option>
+                                                    {% else %}
+                                                    <option style="color:green">{{v['id']}}</option>
+                                                    {%endif%}
+                                                    {%endfor%}
                                                 </select>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="row">
-                                          <div class="col-md-12">
-                                            <div class="form-group">
-                                              <textarea name="comment" required maxlength=220 minlength=4 fontsize="35" id="comment" rows="10" placeholder="Message" class="form-control"></textarea>
-                                            </div>
-                                          </div>
-                                        </div>
+                                  <button name="buttons" value="send" class="btn btn-success">Send</button>
                                       </div>
                                     </div>
-                                  </div>
-                                  <button name="buttons" value="send" class="btn btn-success">Send</button>
                                 </form>
+                                  </div>
                               </div>
                             </div>
                           </div>
@@ -218,10 +229,29 @@ $(document).ready(function(){
 $('#tasktable tbody').on('click', 'td', function(){
 var tr = $(this).closest('tr');
 var row = table.row(tr);
-var details = row.data[0];
-alert("hello");
-    
+   row.remove();
+   table.draw();
 });
 });
+    </script>
+    <script>
+function changeThermometer(){
+range = document.getElementById('device');
+r = range.options[range.selectedIndex].value;
+if (r == 'Fridge'){
+  range =  $('input[type="range"]').ionRangeSlider({
+    min: "1",
+        max:"8",
+    value:"3",
+            step: "0.1"
+    });
+}else if (r =="Freeze"){
+   range =  $('input[type="range"]').ionRangeSlider({
+    min: "-24",
+        max:"-12",
+    value:"-15"
+    });
+}
+}
     </script>
     {%endblock%}

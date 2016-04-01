@@ -1,6 +1,7 @@
 # flask
 from flask import request, render_template
 from flask.ext.login import login_required
+import flask.ext.login as f
 
 # python
 import config
@@ -11,11 +12,12 @@ import auth.models
 from db import sanitation
 from auth_views import app, mail, Message
 
+c_u = f.current_user
+
 
 @app.route("/sanitation", methods=["GET", "POST"])
 @login_required
 def sanitize():
-    from auth_views import current_email, current_user
     todays_cleaning = sanitation.get_todays_tasks(config.cleaning)
     overview = sanitation.get_overview(config.cleaning)
     context = {'todays_cleaning': todays_cleaning,
@@ -26,13 +28,13 @@ def sanitize():
             location = request.form['location']
             topic = request.form['topic']
             comment = request.form['comment']
-            msgtosend = comment + " From " + current_email
+            msgtosend = comment + " From " + c_u.email
             msg = Message(location + ": " + topic,
                     sender=config.MAIL_USERNAME,
                     recipients=[config.MAIL_USERNAME])
             msg.body = msgtosend
             mail.send(msg)
-            userid = current_user
+            userid = c_u.user_id
             if topic == 'Complete':
                 form.senddb(config.cleaning, location, comment, userid)
                 todays_cleaning = sanitation.get_todays_tasks(config.cleaning)
@@ -57,7 +59,6 @@ def sanitize():
 @app.route("/pest", methods=["GET", "POST"])
 @login_required
 def pest():
-    from auth_views import current_email, current_user
     todays_pest = sanitation.get_todays_tasks(config.pest)
     pest_overview = sanitation.get_overview(config.pest)
     context = {'todays_pest': todays_pest,
@@ -68,13 +69,13 @@ def pest():
             location = request.form['location']
             topic = request.form['topic']
             comment = request.form['comment']
-            msgtosend = comment + " From " + current_email
+            msgtosend = comment + " From " + c_u.email
             msg = Message(location + ": " + topic,
                     sender=config.MAIL_USERNAME,
                     recipients=[config.MAIL_USERNAME])
             msg.body = msgtosend
             mail.send(msg)
-            userid = current_user
+            userid = c_u.user_id
             if topic == 'Complete':
                 form.senddb(config.pest, location, comment, userid)
                 todays_pest = sanitation.get_todays_tasks(config.pest)

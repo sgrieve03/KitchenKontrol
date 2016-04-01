@@ -23,9 +23,6 @@
     {%endblock%}
     
     {%block content%} 
-    {% if current_user.is_authenticated %}
-      Hi {{ current_user.name }}!
-      {% endif %}
     <div class="main">
           <div class="main__scroll scrollbar-macosx">
             <div class="main__cont">
@@ -51,7 +48,9 @@
                             <ul role="tablist" class="nav nav-tabs">
                               <li role="presentation"><a href="#tasks" aria-controls="task" role="tab" data-toggle="tab">Tasks&nbsp;</a></li>
                               <li role="presentation"><a href="#alert" aria-controls="alert" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>Alert&nbsp;</a></li>
+                                {% if current_user.is_admin() %}
                               <li role="presentation"><a href="#create" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;Create</a></li>
+                                {% endif %}
                             </ul>
                             <div class="tab-content">
                               <div id="create" role="tabpanel" class="tab-pane">

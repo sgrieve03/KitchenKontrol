@@ -1,6 +1,7 @@
 USE KitchenKontrol;
+
+DROP TABLE IF EXISTS Notes;
 DROP TABLE IF EXISTS Temperature;
-DROP TABLE IF EXISTS Cooking;
 DROP TABLE IF EXISTS Food_Processing;
 DROP TABLE IF EXISTS Thermometer;
 DROP TABLE IF EXISTS Login;
@@ -79,6 +80,7 @@ CREATE TABLE Staff
         Last_Name VARCHAR(50),
         Start_Date CHAR(8),
         End_Date CHAR(8),
+        Contract enum('F', 'P') DEFAULT 'P',
 
         PRIMARY KEY(Staff_id)
         )ENGINE=InnoDB AUTO_INCREMENT=500;
@@ -137,38 +139,40 @@ CREATE TABLE Checks
 CREATE TABLE Address
         (
         Ref_Name VARCHAR(50) NOT NULL,
-        Number INT UNSIGNED,
-        Street VARCHAR(50),
-        City VARCHAR(50),
-        County VARCHAR(50),
-        Country VARCHAR(50),
+        First_Line VARCHAR(100),
+        Second_Line VARCHAR(50),
+        Third_Line VARCHAR(50),
+        Town VARCHAR(50),
         Postcode VARCHAR(8)
         );
 
-CREATE TABLE Telephone_Number
+CREATE TABLE Telephone
         (
         Id VARCHAR(50) NOT NULL,
         Number VARCHAR(12),
-        Type VARCHAR(10),
+        Type enum("sales", "accounts", "home", "mobile"),
         
-        PRIMARY KEY(Id, Number, Type)
+        PRIMARY KEY(Number, type)
         );
 
 CREATE TABLE Login
         (
         Email VARCHAR(50) NOT NULL UNIQUE,
-        Password VARCHAR(225) NOT NULL UNIQUE,
-        Ref_Staff_Id INT UNSIGNED NOT NULL,
+        Password VARCHAR(225) NOT NULL,
+        Ref_Staff_Id INT UNSIGNED NOT NULL UNIQUE,
+        Admin BOOLEAN DEFAULT FALSE,
 
         PRIMARY KEY(Email),
         FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_id)
         );
+
 CREATE TABLE Thermometer
         (
         Thermometer_Id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         Purchase_Date CHAR(8) NOT NULL,
+        Cooked_Stat VARCHAR(10),
         Current BOOLEAN DEFAULT TRUE,
-
+        
         PRIMARY KEY(Thermometer_Id)
         )ENGINE=InnoDB AUTO_INCREMENT=2000;
 
@@ -198,3 +202,13 @@ CREATE TABLE Temperature
         FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_id),
         FOREIGN KEY(Ref_Thermometer_Id) REFERENCES Thermometer(Thermometer_Id)
         )ENGINE=InnoDB AUTO_INCREMENT=100000;
+
+CREATE TABLE Notes
+        (
+        Ref_Staff_Id INT UNSIGNED NOT NULL UNIQUE,
+        Date TIMESTAMP NOT NULL,
+        Notes BLOB,
+
+        PRIMARY KEY(Ref_Staff_Id),
+        FOREIGN KEY(Ref_Staff_Id) REFERENCES Staff(Staff_Id)
+        );

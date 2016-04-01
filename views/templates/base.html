@@ -70,6 +70,7 @@
               </div>
             </div>
           </div>
+          {% if current_user.is_authenticated() %}
           <div class="scrollable scrollbar-macosx">
             <div class="sidebar__cont">
               <div class="sidebar__menu">
@@ -78,9 +79,9 @@
                   <li><a href="home">
                       <div class="nav-menu__ico"><i class="fa fa-fw fa-home"></i></div>
                       <div class="nav-menu__text"><span>Dashboard</span></div></a></li>
-                  <li><a href="food">
-                      <div class="nav-menu__ico"><i class="fa fa-fw fa-cutlery"></i></div>
-                      <div class="nav-menu__text"><span>Food</span></div></a></li>
+                  <li><a href="appliance">
+                      <div class="nav-menu__ico"><i class="fa fa-fw fa-tachometer"></i></div>
+                      <div class="nav-menu__text"><span>Appliance</span></div></a></li>
                   <li><a href="sanitation">
                       <div class="nav-menu__ico"><i class="fa fa-fw fa-paint-brush"></i></div>
                       <div class="nav-menu__text"><span>Cleaning</span></div>
@@ -92,14 +93,7 @@
                       <div class="nav-menu__text"><span>Pest Control</span></div></a></li>
                 </ul>
               </div>
-              <div class="sidebar__menu">
-                <div class="sidebar__title">Pages</div>
-                <ul class="nav nav-menu">
-                  <li><a href="mail">
-                      <div class="nav-menu__ico"><i class="fa fa-fw fa-envelope"></i></div>
-                      <div class="nav-menu__text"><span>Send Mail</span></div></a></li>
-                </ul>
-              </div>
+              {% endif %}
             </div>
           </div>
         </div>
